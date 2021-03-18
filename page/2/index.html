@@ -335,6 +335,60 @@
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
+                    <a href="/2020/08/29/emlog%206.0.0%E5%AE%A1%E8%AE%A1/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="emlog 6.0.0审计">
+                            
+                            <span class="card-title">emlog 6.0.0审计</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                emlog 6.0.0审计
+后台删除评论sql注入admin/comment.php
+
+当action为delbyip时，判断token，并且GET传入的ip地址未经过滤带入delcommentbyip方法。跟踪该方法。定义在include
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-29
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" class="post-category">
+                                    代码审计
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/PHP/">
+                            <span class="chip bg-color">PHP</span>
+                        </a>
+                        
+                        <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">
+                            <span class="chip bg-color">代码审计</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
                     <a href="/2020/08/16/pbootcms%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
                         <div class="card-image">
                             
@@ -769,63 +823,6 @@ register_globals=off
                         
                         <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">
                             <span class="chip bg-color">代码审计</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/08/25/SQL%E6%B3%A8%E5%85%A5%E5%86%99webshell/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="SQL注入写webshell">
-                            
-                            <span class="card-title">SQL注入写webshell</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                SQL注入写webshell
-传统的sql语句写shell通过sql注入select into outfile实现，如：
-1&#39; union select 1,&#39;&lt;?php eval($_POST[a]);?&gt;&#
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-25
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/SQL/" class="post-category">
-                                    SQL
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/webshell/">
-                            <span class="chip bg-color">webshell</span>
-                        </a>
-                        
-                        <a href="/tags/SQL/">
-                            <span class="chip bg-color">SQL</span>
-                        </a>
-                        
-                        <a href="/tags/%E6%B8%97%E9%80%8F/">
-                            <span class="chip bg-color">渗透</span>
                         </a>
                         
                     </div>
